@@ -392,29 +392,52 @@ details.st .body .sig{
 .book:focus-visible .book-stage{box-shadow:0 0 0 2px var(--clay),0 26px 44px -34px rgba(60,40,30,.9)}
 .book-stage{
   position:relative;flex:1;min-width:0;width:100%;
-  perspective:2600px;
+  perspective:2800px;
   background:#FBF6EC;border-radius:5px;overflow:hidden;
   box-shadow:0 26px 44px -34px rgba(60,40,30,.9),0 0 0 1px rgba(160,140,120,.22),0 1px 0 rgba(255,255,255,.7) inset
 }
-.book-stage > img{display:block;width:100%;height:auto}
-.bk-turner{
-  position:absolute;inset:0;transform-origin:left center;transform-style:preserve-3d;
+/* the stage keeps its aspect from --ar (width / height) */
+.book-stage::before{content:"";display:block;padding-top:calc(100% / var(--ar, 3))}
+
+/* two facing pages, cut at the spine */
+.bk-half{position:absolute;top:0;bottom:0;width:50%;overflow:hidden}
+.bk-left{left:0}
+.bk-right{left:50%}
+.bk-half img{
+  position:absolute;top:0;height:100%;width:200%;max-width:none;display:block;object-fit:cover
+}
+.bk-left img{left:0}
+.bk-right img{left:-100%}
+
+/* the fold */
+.bk-gutter{
+  position:absolute;left:50%;top:0;bottom:0;width:30px;margin-left:-15px;z-index:3;
+  pointer-events:none;
+  background:linear-gradient(90deg,
+    rgba(70,48,36,0),rgba(70,48,36,.07) 34%,rgba(70,48,36,.16) 50%,rgba(70,48,36,.07) 66%,rgba(70,48,36,0));
+}
+
+/* the leaf that turns around the spine */
+.bk-leaf{
+  position:absolute;top:0;left:50%;width:50%;height:100%;z-index:4;
+  transform-origin:left center;transform-style:preserve-3d;
   display:none;will-change:transform
 }
-.bk-turner.on{display:block}
-.bk-turner img{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  backface-visibility:hidden;display:block
+.bk-leaf.on{display:block}
+.bk-face{position:absolute;inset:0;overflow:hidden;backface-visibility:hidden}
+.bk-face-front{background:#FBF6EC}
+.bk-face-front img{
+  position:absolute;top:0;left:-100%;height:100%;width:200%;max-width:none;display:block;object-fit:cover
 }
-.bk-back{
-  position:absolute;inset:0;backface-visibility:hidden;transform:rotateY(180deg);
-  background:linear-gradient(265deg,#F4EBDC,#EFE5D4);
-  box-shadow:inset 0 0 60px rgba(120,90,70,.14)
+.bk-face-back{
+  transform:rotateY(180deg);
+  background:linear-gradient(265deg,#F6EDDE,#EFE5D4);
+  box-shadow:inset 0 0 70px rgba(120,90,70,.16)
 }
-.bk-turner.next{animation:turnNext .72s cubic-bezier(.33,.05,.3,1) forwards}
-.bk-turner.prev{animation:turnBack .72s cubic-bezier(.33,.05,.3,1) forwards}
-@keyframes turnNext{from{transform:rotateY(0deg)}to{transform:rotateY(-168deg)}}
-@keyframes turnBack{from{transform:rotateY(-168deg)}to{transform:rotateY(0deg)}}
+.bk-leaf.fwd{animation:leafFwd .7s cubic-bezier(.32,.06,.3,1) forwards}
+.bk-leaf.bwd{animation:leafBwd .7s cubic-bezier(.32,.06,.3,1) forwards}
+@keyframes leafFwd{from{transform:rotateY(0)}to{transform:rotateY(-180deg)}}
+@keyframes leafBwd{from{transform:rotateY(-180deg)}to{transform:rotateY(0)}}
 
 .bkn{
   position:absolute;top:50%;z-index:3;
@@ -786,7 +809,7 @@ footer a:hover{color:var(--ink)}
   .reader-sub{font-size:8pt}
   .bkn,.bk-thumbs,.bk-bar{display:none !important}
   .book-stage{box-shadow:0 0 0 1px #E2D7C6}
-  .bk-turner{display:none !important}
+  .bk-leaf{display:none !important}
   .bk-line{margin-top:1.5mm;font-size:6.5pt;letter-spacing:.08em}
 
   /* part 2 — two-up gallery */

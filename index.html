@@ -208,36 +208,38 @@
             <p class="part-kicker"><span lang="en">Flip through · the books themselves</span><span lang="zh">翻开看看 · 绘本本体</span></p>
             <h3>
               <span lang="en">《It's Okay That I Cried》 — three volumes + the parent handbook</span>
-              <span lang="zh">《我，哭了没关系》—— 小X成长记系列 · 三册绘本 + 家长手册</span>
+              <span lang="zh">《我，哭了没关系》—— 三册绘本 + 家长手册</span>
             </h3>
             <p class="reader-sub">
-              <span lang="en">33 pages, shown the way they were drawn: wide spreads, one turn at a time. Use the arrows, swipe the page, or press ← → .</span>
-              <span lang="zh">共 33 页，按原稿的横开跨页呈现。用两侧箭头翻页，也可以左右滑动，或按键盘 ← →。</span>
+              <span lang="en">Three volumes, 27 spreads, plus 3 for the parent handbook (two pages side by side). The right page turns around the spine — use the arrows, swipe, or press ← → .</span>
+              <span lang="zh">三册绘本共 27 张跨页，家长手册 3 张跨页（两页并排）。翻页时右页绕着书脊翻过去。用两侧箭头、左右滑动，或按键盘 ← →。</span>
             </p>
           </div>
           <div class="reader-tabs" role="group" aria-label="选择册数">
             <button class="rtab" type="button" data-book="b1" aria-pressed="true">
-              <span lang="en">Vol. I</span><span lang="zh">第一册</span><small><span lang="en">9p</span><span lang="zh">9页</span></small>
+              <span lang="en">Vol. I</span><span lang="zh">第一册</span><small><span lang="en">9</span><span lang="zh">9 跨页</span></small>
             </button>
             <button class="rtab" type="button" data-book="b2" aria-pressed="false">
-              <span lang="en">Vol. II</span><span lang="zh">第二册</span><small><span lang="en">9p</span><span lang="zh">9页</span></small>
+              <span lang="en">Vol. II</span><span lang="zh">第二册</span><small><span lang="en">9</span><span lang="zh">9 跨页</span></small>
             </button>
             <button class="rtab" type="button" data-book="b3" aria-pressed="false">
-              <span lang="en">Vol. III</span><span lang="zh">第三册</span><small><span lang="en">9p</span><span lang="zh">9页</span></small>
+              <span lang="en">Vol. III</span><span lang="zh">第三册</span><small><span lang="en">9</span><span lang="zh">9 跨页</span></small>
             </button>
             <button class="rtab" type="button" data-book="hb" aria-pressed="false">
-              <span lang="en">Handbook</span><span lang="zh">家长手册</span><small><span lang="en">6p</span><span lang="zh">6页</span></small>
+              <span lang="en">Handbook</span><span lang="zh">家长手册</span><small><span lang="en">3</span><span lang="zh">3 跨页</span></small>
             </button>
           </div>
         </div>
 
         <div class="book" id="book" tabindex="0" role="group" aria-label="绘本翻页，用左右方向键或两侧箭头">
           <button class="bkn bkn-prev" id="bkPrev" type="button" aria-label="上一页">‹</button>
-          <div class="book-stage" id="bookStage">
-            <img id="bkImg" src="assets/book/b1-01.jpg" alt="《我，哭了没关系》第一册 第 1 页" width="2400" height="800">
-            <div class="bk-turner" id="bkTurner" aria-hidden="true">
-              <img id="bkTurnerImg" src="" alt="">
-              <span class="bk-back"></span>
+          <div class="book-stage" id="bookStage" style="--ar:3">
+            <div class="bk-half bk-left"><img id="bkLeftImg" src="assets/book/b1-01.jpg" alt="《我，哭了没关系》第一册，左页"></div>
+            <div class="bk-half bk-right"><img id="bkRightImg" src="assets/book/b1-01.jpg" alt="《我，哭了没关系》第一册，右页"></div>
+            <span class="bk-gutter" aria-hidden="true"></span>
+            <div class="bk-leaf" id="bkLeaf" aria-hidden="true">
+              <div class="bk-face bk-face-front"><img id="bkLeafImg" src="" alt=""></div>
+              <div class="bk-face bk-face-back"></div>
             </div>
           </div>
           <button class="bkn bkn-next" id="bkNext" type="button" aria-label="下一页">›</button>

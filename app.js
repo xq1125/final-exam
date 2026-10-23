@@ -260,16 +260,17 @@
 
   /* ---------- 11. picture-book reader ---------- */
   var BOOKS = {
-    b1: { n: 9, name: { en: 'Volume I', zh: '第一册' } },
-    b2: { n: 9, name: { en: 'Volume II', zh: '第二册' } },
-    b3: { n: 9, name: { en: 'Volume III', zh: '第三册' } },
-    hb: { n: 6, name: { en: 'Parent handbook', zh: '家长手册' } }
+    b1: { n: 9, ar: 3, prefix: 'b1', name: { en: 'Volume I', zh: '第一册' } },
+    b2: { n: 9, ar: 3, prefix: 'b2', name: { en: 'Volume II', zh: '第二册' } },
+    b3: { n: 9, ar: 3, prefix: 'b3', name: { en: 'Volume III', zh: '第三册' } },
+    hb: { n: 3, ar: 2.82, prefix: 'hbs', name: { en: 'Parent handbook', zh: '家长手册' } }
   };
 
-  var bkImg = $('#bkImg');
   var bkStage = $('#bookStage');
-  var bkTurner = $('#bkTurner');
-  var bkTurnerImg = $('#bkTurnerImg');
+  var bkLeft = $('#bkLeftImg');
+  var bkRight = $('#bkRightImg');
+  var bkLeaf = $('#bkLeaf');
+  var bkLeafImg = $('#bkLeafImg');
   var bkPrev = $('#bkPrev');
   var bkNext = $('#bkNext');
   var bkCount = $('#bkCount');
@@ -285,11 +286,11 @@
   function pad2(n) { return (n < 10 ? '0' : '') + n; }
   /* the single-file build injects window.__BOOK_IMGS so it needs no external files */
   function bkSrc(book, page) {
-    var p = 'assets/book/' + book + '-' + pad2(page) + '.jpg';
+    var p = 'assets/book/' + BOOKS[book].prefix + '-' + pad2(page) + '.jpg';
     return (window.__BOOK_IMGS && window.__BOOK_IMGS[p]) || p;
   }
   function bkThumb(book, page) {
-    var p = 'assets/book/th/' + book + '-' + pad2(page) + '.jpg';
+    var p = 'assets/book/th/' + BOOKS[book].prefix + '-' + pad2(page) + '.jpg';
     return (window.__BOOK_IMGS && window.__BOOK_IMGS[p]) || p;
   }
 
@@ -299,25 +300,31 @@
     bkNow.innerHTML = '<span lang="en">' + nm.en + '</span><span lang="zh">' + nm.zh + '</span>';
   }
 
-  function bkPaint() {
-    var n = BOOKS[bkBook].n;
-    if (bkCount) bkCount.textContent = bkPage + ' / ' + n;
-    if (bkBar) bkBar.style.width = ((bkPage / n) * 100).toFixed(2) + '%';
+  /* counter, progress, arrows, thumbs, neighbour preload */
+  function bkMeta() {
+    var b = BOOKS[bkBook];
+    if (bkCount) bkCount.textContent = bkPage + ' / ' + b.n;
+    if (bkBar) bkBar.style.width = ((bkPage / b.n) * 100).toFixed(2) + '%';
     if (bkPrev) bkPrev.disabled = bkPage <= 1;
-    if (bkNext) bkNext.disabled = bkPage >= n;
-    if (bkImg) {
-      var nm = BOOKS[bkBook].name;
-      bkImg.alt = nm.zh + ' 第 ' + bkPage + ' 页';
-    }
+    if (bkNext) bkNext.disabled = bkPage >= b.n;
     if (bkThumbs) {
-      Array.prototype.forEach.call(bkThumbs.children, function (b) {
-        b.setAttribute('aria-pressed', String(Number(b.dataset.p) === bkPage));
+      Array.prototype.forEach.call(bkThumbs.children, function (el) {
+        el.setAttribute('aria-pressed', String(Number(el.dataset.p) === bkPage));
       });
     }
-    /* warm the neighbours */
     [bkPage - 1, bkPage + 1].forEach(function (p) {
-      if (p >= 1 && p <= n) { var im = new Image(); im.src = bkSrc(bkBook, p); }
+      if (p >= 1 && p <= b.n) { var im = new Image(); im.src = bkSrc(bkBook, p); }
     });
+  }
+
+  /* show a spread on both halves */
+  function bkPaint() {
+    var b = BOOKS[bkBook];
+    var src = bkSrc(bkBook, bkPage);
+    if (bkStage) bkStage.style.setProperty('--ar', b.ar);
+    if (bkLeft) { bkLeft.src = src; bkLeft.alt = b.name.zh + '，左页'; }
+    if (bkRight) { bkRight.src = src; bkRight.alt = b.name.zh + '，右页'; }
+    bkMeta();
   }
 
   function bkBuildThumbs() {
@@ -328,7 +335,7 @@
       var b = document.createElement('button');
       b.type = 'button';
       b.dataset.p = String(i);
-      b.setAttribute('aria-label', '第 ' + i + ' 页');
+      b.setAttribute('aria-label', '第 ' + i + ' 跨页');
       b.style.backgroundImage = 'url("' + bkThumb(bkBook, i) + '")';
       b.addEventListener('click', (function (page) {
         return function () { bkGo(page, page < bkPage ? 'prev' : 'next'); };
@@ -337,37 +344,54 @@
     }
   }
 
-  function bkStopTurn() {
-    if (bkTurner) bkTurner.className = 'bk-turner';
+  function bkFinishTurn() {
+    window.clearTimeout(bkTimer);
+    if (!bkLeaf) return;
+    var src = bkSrc(bkBook, bkPage);
+    if (bkLeft) bkLeft.src = src;
+    if (bkRight) bkRight.src = src;
+    bkLeaf.className = 'bk-leaf';
     bkBusy = false;
   }
 
   function bkGo(page, dir) {
-    if (!bkImg) return;
-    var n = BOOKS[bkBook].n;
-    if (page < 1 || page > n || page === bkPage || bkBusy) return;
+    if (!bkLeft || !bkRight) return;
+    var b = BOOKS[bkBook];
+    if (page < 1 || page > b.n || page === bkPage || bkBusy) return;
     if (dir !== 'prev' && dir !== 'next') dir = page > bkPage ? 'next' : 'prev';
 
-    var oldSrc = bkImg.getAttribute('src');
+    var curSrc = bkSrc(bkBook, bkPage);
     var newSrc = bkSrc(bkBook, page);
-
     bkPage = page;
     bkBusy = true;
-    bkImg.src = newSrc;
-    bkPaint();
+    if (bkStage) bkStage.style.setProperty('--ar', b.ar);
 
-    if (reduce || !bkTurner) { bkBusy = false; return; }
+    if (reduce || !bkLeaf) {
+      bkLeft.src = newSrc;
+      bkRight.src = newSrc;
+      bkBusy = false;
+      bkMeta();
+      return;
+    }
 
-    bkTurnerImg.src = dir === 'prev' ? newSrc : oldSrc;
-    bkTurner.className = 'bk-turner';
-    void bkTurner.offsetWidth;
-    bkTurner.className = 'bk-turner on ' + dir;
+    if (dir === 'next') {
+      if (bkLeafImg) bkLeafImg.src = curSrc;   /* the right page lifts away */
+      bkRight.src = newSrc;                    /* revealed underneath */
+    } else {
+      if (bkLeafImg) bkLeafImg.src = newSrc;   /* the page swings back */
+      bkLeft.src = newSrc;                     /* revealed underneath */
+    }
+    bkMeta();
+
+    bkLeaf.className = 'bk-leaf';
+    void bkLeaf.offsetWidth;
+    bkLeaf.className = 'bk-leaf on ' + (dir === 'next' ? 'fwd' : 'bwd');
 
     window.clearTimeout(bkTimer);
-    bkTimer = window.setTimeout(bkStopTurn, 900);
+    bkTimer = window.setTimeout(bkFinishTurn, 950);
   }
 
-  if (bkTurner) bkTurner.addEventListener('animationend', bkStopTurn);
+  if (bkLeaf) bkLeaf.addEventListener('animationend', bkFinishTurn);
 
   if (bkPrev && bkNext) {
     bkPrev.addEventListener('click', function () { bkGo(bkPage - 1, 'prev'); });
@@ -380,8 +404,8 @@
       bkBook = t.dataset.book;
       bkPage = 1;
       bkBusy = false;
+      if (bkLeaf) bkLeaf.className = 'bk-leaf';
       $$('.rtab').forEach(function (o) { o.setAttribute('aria-pressed', String(o === t)); });
-      bkImg.src = bkSrc(bkBook, 1);
       bkNowLabel();
       bkBuildThumbs();
       bkPaint();
