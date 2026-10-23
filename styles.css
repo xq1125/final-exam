@@ -443,13 +443,7 @@ details.st .body .sig{
 .cv-v{margin:0;font-size:.86rem;line-height:1.62;color:var(--ink-soft)}
 
 /* cv call to action + reader */
-.cvcta{
-  display:flex;align-items:center;justify-content:space-between;gap:clamp(18px,3vw,32px);flex-wrap:wrap;
-  margin-top:clamp(40px,6vh,68px);padding:clamp(22px,3vw,34px);
-  border:1px solid var(--line);border-radius:var(--r);background:#FBF7EF
-}
-.cvcta-text h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.2rem,2.3vw,1.65rem);margin:.18em 0 .35em;letter-spacing:-.01em}
-.cvcta-note{margin:0;max-width:48ch;font-size:.88rem;line-height:1.62;color:var(--ink-soft)}
+.cvcta{display:flex;margin-top:clamp(34px,5vh,56px)}
 
 .cvmodal{position:fixed;inset:0;z-index:130;display:none}
 .cvmodal.open{display:block}
