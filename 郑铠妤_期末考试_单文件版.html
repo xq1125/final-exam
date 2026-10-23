@@ -611,6 +611,24 @@ details.st .body .sig{
   transition:opacity .4s var(--ease)
 }
 .book-stage.closed ~ .bkn{opacity:1}
+/* the same book seen from the back, after the last spread */
+.book-stage.ended{
+  flex:0 0 50%;width:50%;margin-left:auto;background:none;box-shadow:none
+}
+.book-stage.ended::before{padding-top:calc(200% / var(--ar,3))}
+.book-stage.ended .bk-left{visibility:hidden}
+.book-stage.ended .bk-gutter{display:none}
+.book-stage.ended .bk-right{
+  left:0;width:100%;border-radius:5px 3px 3px 5px;
+  box-shadow:0 34px 54px -38px rgba(60,40,30,.95),0 0 0 1px rgba(160,140,120,.16)
+}
+.book-stage.ended .bk-right img{left:-100%}
+.book-stage.ended .bk-right::after{
+  content:"";position:absolute;top:0;bottom:0;right:0;width:14px;z-index:2;pointer-events:none;
+  background:linear-gradient(270deg,rgba(60,40,30,.22),rgba(60,40,30,0))
+}
+.book-stage.fading{opacity:.15;transition:opacity .16s ease}
+
 .book.is-closed .bkn-prev{opacity:.28;pointer-events:none}
 .book.is-closed .bkn-next{opacity:.75}
 .book.is-closed .bk-hint{opacity:1}
@@ -1289,8 +1307,8 @@ footer a:hover{color:var(--ink)}
               <span lang="zh">《我，哭了没关系》—— 三册绘本 + 家长手册</span>
             </h3>
             <p class="reader-sub">
-              <span lang="en">Each volume opens from its cover: 8 spreads, plus 3 for the parent handbook (two pages side by side). Click the cover to open it, then turn with the arrows, a swipe, or ← →.</span>
-              <span lang="zh">每册从封面开始，翻开后 8 张跨页；家长手册 3 张跨页（两页并排）。点封面翻开，然后用两侧箭头、左右滑动或键盘 ← → 翻页。</span>
+              <span lang="en">Each volume opens from its cover, runs 8 spreads, and closes on its back cover; the handbook has 3 spreads (two pages side by side). Click the cover to open it, then turn with the arrows, a swipe, or ← →.</span>
+              <span lang="zh">每册从封面开始，翻开后 8 张跨页，翻到最后是封底；家长手册 3 张跨页（两页并排）。点封面翻开，然后用两侧箭头、左右滑动或键盘 ← → 翻页。</span>
             </p>
           </div>
           <div class="reader-tabs" role="group" aria-label="选择册数">
@@ -1966,10 +1984,10 @@ window.__BOOK_IMGS = {"assets/book/b1-01.jpg":"data:image/jpeg;base64,/9j/4AAQSk
   /* n = spreads you can read; off = which image file the first spread is;
      cover = the book starts shut, with image 1's left half as its cover */
   var BOOKS = {
-    b1: { n: 8, ar: 3, prefix: 'b1', off: 2, cover: true, name: { en: 'Volume I', zh: '第一册' } },
-    b2: { n: 8, ar: 3, prefix: 'b2', off: 2, cover: true, name: { en: 'Volume II', zh: '第二册' } },
-    b3: { n: 8, ar: 3, prefix: 'b3', off: 2, cover: true, name: { en: 'Volume III', zh: '第三册' } },
-    hb: { n: 3, ar: 2.82, prefix: 'hbs', off: 1, cover: false, name: { en: 'Parent handbook', zh: '家长手册' } }
+    b1: { n: 8, ar: 3, prefix: 'b1', off: 2, cover: true, ends: true, name: { en: 'Volume I', zh: '第一册' } },
+    b2: { n: 8, ar: 3, prefix: 'b2', off: 2, cover: true, ends: true, name: { en: 'Volume II', zh: '第二册' } },
+    b3: { n: 8, ar: 3, prefix: 'b3', off: 2, cover: true, ends: true, name: { en: 'Volume III', zh: '第三册' } },
+    hb: { n: 3, ar: 2.82, prefix: 'hbs', off: 1, cover: false, ends: false, name: { en: 'Parent handbook', zh: '家长手册' } }
   };
 
   var bkStage = $('#bookStage');
@@ -1988,6 +2006,7 @@ window.__BOOK_IMGS = {"assets/book/b1-01.jpg":"data:image/jpeg;base64,/9j/4AAQSk
   var bkBook = 'b1';
   var bkPage = 1;
   var bkClosed = true;
+  var bkEnded = false;
   var bkBusy = false;
   var bkPending = null;
   var bkTimer = null;
@@ -2016,13 +2035,15 @@ window.__BOOK_IMGS = {"assets/book/b1-01.jpg":"data:image/jpeg;base64,/9j/4AAQSk
   function bkMeta() {
     var b = BOOKS[bkBook];
     var shut = bkClosed && b.cover;
+    var ended = bkEnded && b.ends;
     if (bkCount) {
       if (shut) bkCount.innerHTML = '<span lang="en">Cover</span><span lang="zh">封面</span>';
+      else if (ended) bkCount.innerHTML = '<span lang="en">Back cover</span><span lang="zh">封底</span>';
       else bkCount.textContent = bkPage + ' / ' + b.n;
     }
-    if (bkBar) bkBar.style.width = (shut ? 0 : (bkPage / b.n) * 100).toFixed(2) + '%';
-    if (bkPrev) bkPrev.disabled = shut || bkPage <= 1;
-    if (bkNext) bkNext.disabled = !shut && bkPage >= b.n;
+    if (bkBar) bkBar.style.width = (shut ? 0 : ended ? 100 : (bkPage / b.n) * 100).toFixed(2) + '%';
+    if (bkPrev) bkPrev.disabled = shut;
+    if (bkNext) bkNext.disabled = ended || (!shut && !b.ends && bkPage >= b.n);
     if (bookEl) bookEl.classList.toggle('is-closed', shut);
     if (bkThumbs) {
       Array.prototype.forEach.call(bkThumbs.children, function (el) {
@@ -2034,20 +2055,22 @@ window.__BOOK_IMGS = {"assets/book/b1-01.jpg":"data:image/jpeg;base64,/9j/4AAQSk
     });
   }
 
-  /* show a spread on both halves, or the shut book */
+  /* show a spread on both halves, the shut book, or the shut book seen from the back */
   function bkPaint() {
     var b = BOOKS[bkBook];
     var shut = bkClosed && b.cover;
+    var ended = bkEnded && b.ends;
     var src = bkSrc(bkBook, bkPage);
     if (bkStage) {
       bkStage.style.setProperty('--ar', b.ar);
       bkStage.classList.toggle('closed', shut);
+      bkStage.classList.toggle('ended', ended);
       bkStage.classList.remove('bk-lhid');
     }
     if (bkLeft) { bkLeft.src = src; bkLeft.alt = b.name.zh + '，左页'; }
     if (bkRight) {
-      bkRight.src = shut ? bkCover(bkBook) : src;
-      bkRight.alt = b.name.zh + (shut ? '，封面' : '，右页');
+      bkRight.src = (shut || ended) ? bkCover(bkBook) : src;
+      bkRight.alt = b.name.zh + (shut ? '，封面' : ended ? '，封底' : '，右页');
     }
     if (bkLeaf) bkLeaf.className = 'bk-leaf';
     bkMeta();
@@ -2085,11 +2108,41 @@ window.__BOOK_IMGS = {"assets/book/b1-01.jpg":"data:image/jpeg;base64,/9j/4AAQSk
   function bkSwing(mode) {
     bkBusy = true;
     bkPending = mode;
+    if (!bkLeaf) { bkFinish(); return; }
     bkLeaf.className = 'bk-leaf';
-    void bkLeaf.offsetWidth;
-    bkLeaf.className = 'bk-leaf on ' + (mode === 'close' ? 'bwd' : 'fwd') + (mode === 'turn' ? '' : ' from-cover');
+    var started = false;
+    function start() {
+      if (started) return;
+      started = true;
+      void bkLeaf.offsetWidth;
+      bkLeaf.className = 'bk-leaf on ' + (mode === 'close' ? 'bwd' : 'fwd') + (mode === 'turn' ? '' : ' from-cover');
+      window.clearTimeout(bkTimer);
+      bkTimer = window.setTimeout(bkFinish, 950);
+    }
+    /* decode both faces first — otherwise the back of the leaf shows blank for a frame */
+    var jobs = [];
+    [bkLeafImg, bkLeafBackImg].forEach(function (im) {
+      if (im && im.decode) jobs.push(im.decode().catch(function () {}));
+    });
     window.clearTimeout(bkTimer);
-    bkTimer = window.setTimeout(bkFinish, 950);
+    bkTimer = window.setTimeout(start, 150);
+    if (jobs.length) {
+      Promise.all(jobs).then(function () { window.requestAnimationFrame(start); });
+    } else {
+      window.requestAnimationFrame(start);
+    }
+  }
+
+  /* after the last spread: the book closes and you see its back cover */
+  function bkEnd() {
+    var b = BOOKS[bkBook];
+    if (!b.ends || bkEnded || bkBusy) return;
+    bkEnded = true;
+    if (bkStage) bkStage.classList.add('fading');
+    window.setTimeout(function () {
+      bkPaint();
+      if (bkStage) bkStage.classList.remove('fading');
+    }, 180);
   }
 
   /* shut book -> first spread: the cover swings across, showing the next page on its back */
@@ -2120,9 +2173,11 @@ window.__BOOK_IMGS = {"assets/book/b1-01.jpg":"data:image/jpeg;base64,/9j/4AAQSk
   function bkGo(page, dir) {
     if (!bkLeft || !bkRight) return;
     var b = BOOKS[bkBook];
+    if (bkEnded) { bkEnded = false; bkPaint(); return; }
     if (bkClosed && b.cover) { if (dir !== 'prev') bkOpen(); return; }
-    if (page < 1 || page > b.n || page === bkPage || bkBusy) return;
     if (dir !== 'prev' && dir !== 'next') dir = page > bkPage ? 'next' : 'prev';
+    if (dir === 'next' && page > b.n) { if (b.ends) bkEnd(); return; }
+    if (page < 1 || page > b.n || page === bkPage || bkBusy) return;
     if (dir === 'prev' && page === 1 && b.cover) { bkClose(); return; }
 
     var curSrc = bkSrc(bkBook, bkPage);
@@ -2163,6 +2218,7 @@ window.__BOOK_IMGS = {"assets/book/b1-01.jpg":"data:image/jpeg;base64,/9j/4AAQSk
       bkPage = 1;
       bkBusy = false;
       bkPending = null;
+      bkEnded = false;
       bkClosed = !!BOOKS[bkBook].cover;
       $$('.rtab').forEach(function (o) { o.setAttribute('aria-pressed', String(o === t)); });
       bkNowLabel();

@@ -282,10 +282,10 @@
   /* n = spreads you can read; off = which image file the first spread is;
      cover = the book starts shut, with image 1's left half as its cover */
   var BOOKS = {
-    b1: { n: 8, ar: 3, prefix: 'b1', off: 2, cover: true, name: { en: 'Volume I', zh: '第一册' } },
-    b2: { n: 8, ar: 3, prefix: 'b2', off: 2, cover: true, name: { en: 'Volume II', zh: '第二册' } },
-    b3: { n: 8, ar: 3, prefix: 'b3', off: 2, cover: true, name: { en: 'Volume III', zh: '第三册' } },
-    hb: { n: 3, ar: 2.82, prefix: 'hbs', off: 1, cover: false, name: { en: 'Parent handbook', zh: '家长手册' } }
+    b1: { n: 8, ar: 3, prefix: 'b1', off: 2, cover: true, ends: true, name: { en: 'Volume I', zh: '第一册' } },
+    b2: { n: 8, ar: 3, prefix: 'b2', off: 2, cover: true, ends: true, name: { en: 'Volume II', zh: '第二册' } },
+    b3: { n: 8, ar: 3, prefix: 'b3', off: 2, cover: true, ends: true, name: { en: 'Volume III', zh: '第三册' } },
+    hb: { n: 3, ar: 2.82, prefix: 'hbs', off: 1, cover: false, ends: false, name: { en: 'Parent handbook', zh: '家长手册' } }
   };
 
   var bkStage = $('#bookStage');
@@ -304,6 +304,7 @@
   var bkBook = 'b1';
   var bkPage = 1;
   var bkClosed = true;
+  var bkEnded = false;
   var bkBusy = false;
   var bkPending = null;
   var bkTimer = null;
@@ -332,13 +333,15 @@
   function bkMeta() {
     var b = BOOKS[bkBook];
     var shut = bkClosed && b.cover;
+    var ended = bkEnded && b.ends;
     if (bkCount) {
       if (shut) bkCount.innerHTML = '<span lang="en">Cover</span><span lang="zh">封面</span>';
+      else if (ended) bkCount.innerHTML = '<span lang="en">Back cover</span><span lang="zh">封底</span>';
       else bkCount.textContent = bkPage + ' / ' + b.n;
     }
-    if (bkBar) bkBar.style.width = (shut ? 0 : (bkPage / b.n) * 100).toFixed(2) + '%';
-    if (bkPrev) bkPrev.disabled = shut || bkPage <= 1;
-    if (bkNext) bkNext.disabled = !shut && bkPage >= b.n;
+    if (bkBar) bkBar.style.width = (shut ? 0 : ended ? 100 : (bkPage / b.n) * 100).toFixed(2) + '%';
+    if (bkPrev) bkPrev.disabled = shut;
+    if (bkNext) bkNext.disabled = ended || (!shut && !b.ends && bkPage >= b.n);
     if (bookEl) bookEl.classList.toggle('is-closed', shut);
     if (bkThumbs) {
       Array.prototype.forEach.call(bkThumbs.children, function (el) {
@@ -350,20 +353,22 @@
     });
   }
 
-  /* show a spread on both halves, or the shut book */
+  /* show a spread on both halves, the shut book, or the shut book seen from the back */
   function bkPaint() {
     var b = BOOKS[bkBook];
     var shut = bkClosed && b.cover;
+    var ended = bkEnded && b.ends;
     var src = bkSrc(bkBook, bkPage);
     if (bkStage) {
       bkStage.style.setProperty('--ar', b.ar);
       bkStage.classList.toggle('closed', shut);
+      bkStage.classList.toggle('ended', ended);
       bkStage.classList.remove('bk-lhid');
     }
     if (bkLeft) { bkLeft.src = src; bkLeft.alt = b.name.zh + '，左页'; }
     if (bkRight) {
-      bkRight.src = shut ? bkCover(bkBook) : src;
-      bkRight.alt = b.name.zh + (shut ? '，封面' : '，右页');
+      bkRight.src = (shut || ended) ? bkCover(bkBook) : src;
+      bkRight.alt = b.name.zh + (shut ? '，封面' : ended ? '，封底' : '，右页');
     }
     if (bkLeaf) bkLeaf.className = 'bk-leaf';
     bkMeta();
@@ -401,11 +406,41 @@
   function bkSwing(mode) {
     bkBusy = true;
     bkPending = mode;
+    if (!bkLeaf) { bkFinish(); return; }
     bkLeaf.className = 'bk-leaf';
-    void bkLeaf.offsetWidth;
-    bkLeaf.className = 'bk-leaf on ' + (mode === 'close' ? 'bwd' : 'fwd') + (mode === 'turn' ? '' : ' from-cover');
+    var started = false;
+    function start() {
+      if (started) return;
+      started = true;
+      void bkLeaf.offsetWidth;
+      bkLeaf.className = 'bk-leaf on ' + (mode === 'close' ? 'bwd' : 'fwd') + (mode === 'turn' ? '' : ' from-cover');
+      window.clearTimeout(bkTimer);
+      bkTimer = window.setTimeout(bkFinish, 950);
+    }
+    /* decode both faces first — otherwise the back of the leaf shows blank for a frame */
+    var jobs = [];
+    [bkLeafImg, bkLeafBackImg].forEach(function (im) {
+      if (im && im.decode) jobs.push(im.decode().catch(function () {}));
+    });
     window.clearTimeout(bkTimer);
-    bkTimer = window.setTimeout(bkFinish, 950);
+    bkTimer = window.setTimeout(start, 150);
+    if (jobs.length) {
+      Promise.all(jobs).then(function () { window.requestAnimationFrame(start); });
+    } else {
+      window.requestAnimationFrame(start);
+    }
+  }
+
+  /* after the last spread: the book closes and you see its back cover */
+  function bkEnd() {
+    var b = BOOKS[bkBook];
+    if (!b.ends || bkEnded || bkBusy) return;
+    bkEnded = true;
+    if (bkStage) bkStage.classList.add('fading');
+    window.setTimeout(function () {
+      bkPaint();
+      if (bkStage) bkStage.classList.remove('fading');
+    }, 180);
   }
 
   /* shut book -> first spread: the cover swings across, showing the next page on its back */
@@ -436,9 +471,11 @@
   function bkGo(page, dir) {
     if (!bkLeft || !bkRight) return;
     var b = BOOKS[bkBook];
+    if (bkEnded) { bkEnded = false; bkPaint(); return; }
     if (bkClosed && b.cover) { if (dir !== 'prev') bkOpen(); return; }
-    if (page < 1 || page > b.n || page === bkPage || bkBusy) return;
     if (dir !== 'prev' && dir !== 'next') dir = page > bkPage ? 'next' : 'prev';
+    if (dir === 'next' && page > b.n) { if (b.ends) bkEnd(); return; }
+    if (page < 1 || page > b.n || page === bkPage || bkBusy) return;
     if (dir === 'prev' && page === 1 && b.cover) { bkClose(); return; }
 
     var curSrc = bkSrc(bkBook, bkPage);
@@ -479,6 +516,7 @@
       bkPage = 1;
       bkBusy = false;
       bkPending = null;
+      bkEnded = false;
       bkClosed = !!BOOKS[bkBook].cover;
       $$('.rtab').forEach(function (o) { o.setAttribute('aria-pressed', String(o === t)); });
       bkNowLabel();

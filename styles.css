@@ -600,6 +600,24 @@ details.st .body .sig{
   transition:opacity .4s var(--ease)
 }
 .book-stage.closed ~ .bkn{opacity:1}
+/* the same book seen from the back, after the last spread */
+.book-stage.ended{
+  flex:0 0 50%;width:50%;margin-left:auto;background:none;box-shadow:none
+}
+.book-stage.ended::before{padding-top:calc(200% / var(--ar,3))}
+.book-stage.ended .bk-left{visibility:hidden}
+.book-stage.ended .bk-gutter{display:none}
+.book-stage.ended .bk-right{
+  left:0;width:100%;border-radius:5px 3px 3px 5px;
+  box-shadow:0 34px 54px -38px rgba(60,40,30,.95),0 0 0 1px rgba(160,140,120,.16)
+}
+.book-stage.ended .bk-right img{left:-100%}
+.book-stage.ended .bk-right::after{
+  content:"";position:absolute;top:0;bottom:0;right:0;width:14px;z-index:2;pointer-events:none;
+  background:linear-gradient(270deg,rgba(60,40,30,.22),rgba(60,40,30,0))
+}
+.book-stage.fading{opacity:.15;transition:opacity .16s ease}
+
 .book.is-closed .bkn-prev{opacity:.28;pointer-events:none}
 .book.is-closed .bkn-next{opacity:.75}
 .book.is-closed .bk-hint{opacity:1}
