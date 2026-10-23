@@ -1,5 +1,8 @@
 # 柔软的余地 — 期末考试第二部分
 
+**在线地址（可直接发给别人）：<https://xq1125.github.io/final-exam/>**
+仓库：<https://github.com/xq1125/final-exam>
+
 一个可交互的网站，用来呈现第 16 课期末考试（*Critical Writing and Reading in Arts*，湖北大学）
 PPT 部分要求的三块内容：**① 作为艺术家的自我介绍 ② 简短作品集 ③ 从本课程学到了什么**，
 并按「视觉设计」要求做成了一套柔和的、纸感的数字媒体风格。
