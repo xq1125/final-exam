@@ -635,6 +635,33 @@
     });
   }
 
+  /* ---------- 14. contact card behind the name ---------- */
+  var contactCard = $('#contact');
+  var brandBtn = $('#brandBtn');
+
+  function setContact(open) {
+    if (!contactCard || !brandBtn) return;
+    contactCard.hidden = !open;
+    brandBtn.setAttribute('aria-expanded', String(!!open));
+  }
+  if (brandBtn) {
+    brandBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      setContact(contactCard.hidden);
+    });
+  }
+  document.addEventListener('click', function (e) {
+    if (!contactCard || contactCard.hidden) return;
+    if (contactCard.contains(e.target) || (brandBtn && brandBtn.contains(e.target))) return;
+    setContact(false);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && contactCard && !contactCard.hidden) {
+      setContact(false);
+      if (brandBtn) brandBtn.focus();
+    }
+  });
+
   /* ---------- init ---------- */
   setLang(initialLang === 'zh' ? 'zh' : 'en');
   setSpec(spec ? spec.value : 2);

@@ -139,6 +139,32 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .brand .who{display:flex;flex-direction:column;line-height:1.15}
 .brand b{font-weight:500;font-size:14px;letter-spacing:.02em}
 .brand small{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
+/* brand button + contact card */
+button.brand{
+  font:inherit;color:inherit;background:none;border:0;padding:4px 6px 4px 0;
+  text-align:left;cursor:pointer;border-radius:10px
+}
+button.brand b{transition:color .3s var(--ease)}
+button.brand:hover b,button.brand:focus-visible b{color:var(--clay)}
+button.brand:focus-visible{outline:2px solid rgba(176,96,62,.5);outline-offset:4px}
+.contact{
+  position:absolute;top:calc(100% - 6px);left:clamp(18px,4vw,54px);z-index:60;
+  width:min(304px,calc(100vw - 36px));
+  background:rgba(253,251,245,.98);border:1px solid var(--line);border-radius:14px;
+  box-shadow:0 30px 52px -34px rgba(50,35,28,.9);
+  padding:15px 18px 13px;animation:docIn .24s var(--ease)
+}
+.contact[hidden]{display:none}
+.contact-k{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--clay);margin:0 0 8px}
+.contact-row{
+  display:flex;flex-direction:column;gap:2px;padding:8px 0;
+  border-top:1px solid var(--line-soft);transition:color .3s
+}
+.contact-row:first-of-type{border-top:0;padding-top:2px}
+.contact-lab{font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint)}
+.contact-val{font-family:var(--serif);font-size:1.04rem;color:var(--ink);letter-spacing:.01em}
+.contact-row:hover .contact-val{color:var(--clay)}
+@media screen and (max-width:560px){.contact{left:12px;width:calc(100vw - 24px)}}
 
 .navlinks{display:flex;gap:clamp(10px,1.6vw,26px);font-size:12.5px;letter-spacing:.04em}
 .navlinks a{position:relative;padding:4px 2px;color:var(--ink-soft);transition:color .3s}
@@ -1121,13 +1147,24 @@ footer a:hover{color:var(--ink)}
 <div class="progress" aria-hidden="true"><i id="bar"></i></div>
 
 <header class="nav" id="nav">
-  <a class="brand" href="#top" aria-label="Back to top">
+  <button class="brand" id="brandBtn" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="contact" aria-label="联系方式 · Contact">
     <span class="mark" aria-hidden="true">K</span>
     <span class="who">
       <b><span lang="en">Zheng Kaiyu</span><span lang="zh">郑铠妤</span></b>
       <small><span lang="en">Digital media artist</span><span lang="zh">数字媒体艺术</span></small>
     </span>
-  </a>
+  </button>
+  <div class="contact" id="contact" role="dialog" aria-label="联系方式" hidden>
+    <p class="contact-k"><span lang="en">Contact</span><span lang="zh">联系方式</span></p>
+    <a class="contact-row" href="tel:+8613554191868">
+      <span class="contact-lab"><span lang="en">Phone</span><span lang="zh">电话</span></span>
+      <span class="contact-val">135 5419 1868</span>
+    </a>
+    <a class="contact-row" href="mailto:13554191868@163.com">
+      <span class="contact-lab"><span lang="en">Email</span><span lang="zh">邮箱</span></span>
+      <span class="contact-val">13554191868@163.com</span>
+    </a>
+  </div>
   <nav class="navlinks" aria-label="Sections">
     <a href="#artist"><b>01</b><span lang="en">Artist</span><span lang="zh">艺术家</span></a>
     <a href="#portfolio"><b>02</b><span lang="en">Portfolio</span><span lang="zh">作品集</span></a>
@@ -2336,6 +2373,33 @@ window.__BOOK_IMGS = {"assets/book/b1-01.jpg":"data:image/jpeg;base64,/9j/4AAQSk
       if (e.key === 'Escape' && !cvModal.hidden) { e.preventDefault(); closeCv(); }
     });
   }
+
+  /* ---------- 14. contact card behind the name ---------- */
+  var contactCard = $('#contact');
+  var brandBtn = $('#brandBtn');
+
+  function setContact(open) {
+    if (!contactCard || !brandBtn) return;
+    contactCard.hidden = !open;
+    brandBtn.setAttribute('aria-expanded', String(!!open));
+  }
+  if (brandBtn) {
+    brandBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      setContact(contactCard.hidden);
+    });
+  }
+  document.addEventListener('click', function (e) {
+    if (!contactCard || contactCard.hidden) return;
+    if (contactCard.contains(e.target) || (brandBtn && brandBtn.contains(e.target))) return;
+    setContact(false);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && contactCard && !contactCard.hidden) {
+      setContact(false);
+      if (brandBtn) brandBtn.focus();
+    }
+  });
 
   /* ---------- init ---------- */
   setLang(initialLang === 'zh' ? 'zh' : 'en');

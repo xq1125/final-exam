@@ -19,13 +19,24 @@
 <div class="progress" aria-hidden="true"><i id="bar"></i></div>
 
 <header class="nav" id="nav">
-  <a class="brand" href="#top" aria-label="Back to top">
+  <button class="brand" id="brandBtn" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="contact" aria-label="联系方式 · Contact">
     <span class="mark" aria-hidden="true">K</span>
     <span class="who">
       <b><span lang="en">Zheng Kaiyu</span><span lang="zh">郑铠妤</span></b>
       <small><span lang="en">Digital media artist</span><span lang="zh">数字媒体艺术</span></small>
     </span>
-  </a>
+  </button>
+  <div class="contact" id="contact" role="dialog" aria-label="联系方式" hidden>
+    <p class="contact-k"><span lang="en">Contact</span><span lang="zh">联系方式</span></p>
+    <a class="contact-row" href="tel:+8613554191868">
+      <span class="contact-lab"><span lang="en">Phone</span><span lang="zh">电话</span></span>
+      <span class="contact-val">135 5419 1868</span>
+    </a>
+    <a class="contact-row" href="mailto:13554191868@163.com">
+      <span class="contact-lab"><span lang="en">Email</span><span lang="zh">邮箱</span></span>
+      <span class="contact-val">13554191868@163.com</span>
+    </a>
+  </div>
   <nav class="navlinks" aria-label="Sections">
     <a href="#artist"><b>01</b><span lang="en">Artist</span><span lang="zh">艺术家</span></a>
     <a href="#portfolio"><b>02</b><span lang="en">Portfolio</span><span lang="zh">作品集</span></a>
