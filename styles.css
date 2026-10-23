@@ -889,7 +889,7 @@ footer a:hover{color:var(--ink)}
   .sc-lead{max-height:none;overflow:visible;font-size:9.2pt;line-height:1.55}
   .sc-lead::after{display:none}
   .sc-actions{margin-top:3mm}
-  .sc-hint{font-size:6.6pt}
+  .sc-hint{display:none !important}
   .archive,.cv{margin-top:4.5mm}
   .archive-head{margin-bottom:2.2mm}
   .archive-head h3{font-size:10.5pt}
