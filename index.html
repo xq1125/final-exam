@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="zh-CN" data-lang="zh" data-default-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>郑铠妤 · 为每一种真实的情绪留一个柔软的空间 — 期末考试第二部分</title>
+<meta name="description" content="Final exam presentation (Part 2): an artist introduction, a short portfolio and what I learned — as an interactive site by Zheng Kaiyu, Hubei University.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<a class="skip" href="#artist">Skip to content</a>
+<div class="grain" aria-hidden="true"></div>
+<div class="blobs" aria-hidden="true"><span class="b1"></span><span class="b2"></span><span class="b3"></span></div>
+<div class="progress" aria-hidden="true"><i id="bar"></i></div>
+
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="Back to top">
+    <span class="mark" aria-hidden="true">K</span>
+    <span class="who">
+      <b><span lang="en">Zheng Kaiyu</span><span lang="zh">郑铠妤</span></b>
+      <small><span lang="en">Digital media artist</span><span lang="zh">数字媒体艺术</span></small>
+    </span>
+  </a>
+  <nav class="navlinks" aria-label="Sections">
+    <a href="#artist"><b>01</b><span lang="en">Artist</span><span lang="zh">艺术家</span></a>
+    <a href="#portfolio"><b>02</b><span lang="en">Portfolio</span><span lang="zh">作品集</span></a>
+    <a href="#learnings"><b>03</b><span lang="en">Learnings</span><span lang="zh">收获</span></a>
+  </nav>
+  <div class="navtools">
+    <div class="seg" role="group" aria-label="Language">
+      <button type="button" data-setlang="en" aria-pressed="true">EN</button>
+      <button type="button" data-setlang="zh" aria-pressed="false">中文</button>
+    </div>
+    <button class="btn-ghost" id="printBtn" type="button" title="Print or save as PDF slides">
+      <span lang="en">PDF slides</span><span lang="zh">导出 PDF</span> ↓
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" id="hero">
+    <div class="wrap inner">
+      <div class="hero-copy">
+        <p class="eyebrow">
+          <span lang="en">Critical Writing and Reading in Arts · Hubei University</span>
+          <span lang="zh">艺术批评与阅读写作 · 湖北大学</span>
+        </p>
+        <h1>
+          <span lang="en">A soft space for every <em>real feeling</em>.</span>
+          <span lang="zh">为每一种<em>真实的情绪</em>，<br>留一个柔软的空间。</span>
+        </h1>
+        <p class="lead">
+          <span lang="en">I draw picture books for children. I don't tell them what is right or wrong — I put small signs in the pictures, so the feelings they can't name yet become something they can see.</span>
+          <span lang="zh">我为孩子画绘本。我不告诉他们什么是对、什么错——我只是在画面里留下一些小小的线索，让那些他们还说不出口的情绪，变成看得见的东西。</span>
+        </p>
+        <div class="cta">
+          <a class="btn" href="#portfolio">
+            <span lang="en">See the work</span><span lang="zh">看看作品</span>
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="btn line" href="#artist">
+            <span lang="en">Who I am</span><span lang="zh">关于我</span>
+          </a>
+        </div>
+        <div class="hero-meta">
+          <span><b><span lang="en">Final exam · Part 2</span><span lang="zh">期末考试 · 第二部分</span></b></span>
+          <span><span lang="en">Class 16</span><span lang="zh">第16课</span></span>
+          <span><span lang="en">Student ID 069</span><span lang="zh">学号后三位 069</span></span>
+          <span><span lang="en">Art &amp; Design, 2023–2027</span><span lang="zh">艺术与设计 2023–2027</span></span>
+        </div>
+      </div>
+
+      <figure class="frame reveal">
+        <span class="tape" aria-hidden="true"></span>
+        <img src="assets/cover-hero.jpg" width="202" height="314" alt="Cover illustration of the picture book It's Okay That I Cried: a mother holding her crying child.">
+        <figcaption>
+          <span><span lang="en">《我，哭了没关系》</span><span lang="zh">《我，哭了没关系》</span></span>
+          <span>2026</span>
+        </figcaption>
+      </figure>
+    </div>
+    <div class="wrap">
+      <p class="scroll-cue"><span lang="en">Scroll</span><span lang="zh">向下</span> <i></i></p>
+    </div>
+  </section>
+
+  <!-- ================= 01 ARTIST ================= -->
+  <section class="part" id="artist">
+    <div class="wrap">
+      <div class="part-head">
+        <div class="part-num" aria-hidden="true">01</div>
+        <div>
+          <p class="part-kicker"><span lang="en">Part 1 of 3</span><span lang="zh">第一部分 / 共三部分</span></p>
+          <h2>
+            <span lang="en">Introduce yourself as an artist</span>
+            <span lang="zh">以艺术家的身份介绍自己</span>
+          </h2>
+          <p class="sub">
+            <span lang="en">The summary of my artist statement: what I make, how I make it, and what I hope it does.</span>
+            <span lang="zh">这是我的艺术家自述概要：我做什么、怎么做，以及我希望它起到什么作用。</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="statement reveal">
+        <details class="st" open>
+          <summary>
+            <span class="n">01</span>
+            <span class="st-title"><span lang="en">No lessons — only small signs</span><span lang="zh">不讲道理，只留线索</span></span>
+            <span class="plus" aria-hidden="true"></span>
+          </summary>
+          <div class="body">
+            <p>
+              <span lang="en">I don't tell children what is right or wrong. Instead I leave small signs inside the picture — a shadow, a colour that shifts — so a feeling they cannot name yet becomes something they can actually see. The picture is not an instruction. It is a place where a feeling is allowed to stand in the open.</span>
+              <span lang="zh">我不告诉孩子什么是对、什么错。我只是在画面里留下一些小小的暗示——一道影子、一处正在变化的颜色——让那些他们还叫不出名字的情绪，变成看得见的东西。画面不是指令，而是一个让情绪可以被放在明面上的地方。</span>
+            </p>
+            <p class="sig"><span lang="en">From the artist statement</span><span lang="zh">摘自艺术家自述</span></p>
+          </div>
+        </details>
+
+        <details class="st">
+          <summary>
+            <span class="n">02</span>
+            <span class="st-title"><span lang="en">Soft characters, quiet colours</span><span lang="zh">柔和的人物，安静的颜色</span></span>
+            <span class="plus" aria-hidden="true"></span>
+          </summary>
+          <div class="body">
+            <p>
+              <span lang="en">Most pages start in Procreate and Photoshop. I keep my characters soft and my colours low. Storyboards, page layout and the look on a face carry the comfort: a drooping shoulder or a toy half-hidden behind a chair often shows worry better than a sentence can. I turn children's vague feelings into faces, bodies and small details, so the reader feels them straight from the picture.</span>
+              <span lang="zh">大部分页面从 Procreate 和 Photoshop 开始。我把人物画得柔软，把颜色压得安静。分镜、版面、脸上的表情，共同承担着“被安慰”的感觉：垮下去的肩膀、藏在椅子后面的半个玩偶，常常比一句台词更会说担心。我把孩子模糊的情绪，变成脸、身体和小细节，让读者直接从画面里感觉到它。</span>
+            </p>
+            <p class="sig"><span lang="en">Process</span><span lang="zh">工作方法</span></p>
+          </div>
+        </details>
+
+        <details class="st">
+          <summary>
+            <span class="n">03</span>
+            <span class="st-title"><span lang="en">A gentle space, not a cure</span><span lang="zh">是一个空间，不是一剂解药</span></span>
+            <span class="plus" aria-hidden="true"></span>
+          </summary>
+          <div class="body">
+            <p>
+              <span lang="en">My work sits inside children's emotional education. When a child looks at my pictures I don't want them to learn a rule — I want them to find their own feeling in it. Being small and scared isn't a problem to be fixed; it is okay just to sit with it. That is the only thing I am really trying to build: a gentle space where the messy feelings and the mixed ones are allowed to stay.</span>
+              <span lang="zh">我的作品属于儿童情绪教育。当孩子看我的画，我不希望他学会一条道理，而是希望他在里面找到自己的情绪。小小的、害怕的，不是一个需要被“治好”的问题——只是待一会儿，也没关系。我真正想搭建的只有一件事：一个温柔的地方，让混乱的、混杂的情绪都可以留下来。</span>
+            </p>
+            <p class="sig"><span lang="en">Purpose</span><span lang="zh">创作意图</span></p>
+          </div>
+        </details>
+      </div>
+
+      <div class="manifesto reveal">
+        <p class="mk"><span lang="en">From my Art Manifesto</span><span lang="zh">摘自《我的艺术宣言》</span></p>
+        <h3><span lang="en">Five commandments I draw by</span><span lang="zh">我画画时遵守的五条</span></h3>
+        <ol class="cmds">
+          <li><span class="num">Ⅰ</span><span><span lang="en">Say no to moral lectures. Let conflict, weakness and imperfection exist in art.</span><span lang="zh">拒绝道德说教。让冲突、软弱和不完美留在艺术里。</span></span></li>
+          <li><span class="num">Ⅱ</span><span><span lang="en">Use visuals to show feelings — pictures and small details, not only written words.</span><span lang="zh">用画面表达情绪——是图像和细节，而不只是文字。</span></span></li>
+          <li><span class="num">Ⅲ</span><span><span lang="en">Keep your true thoughts, and respect the real context.</span><span lang="zh">保留真实的想法，也尊重真实的语境。</span></span></li>
+          <li><span class="num">Ⅳ</span><span><span lang="en">Value common daily experiences; you don't need perfect characters.</span><span lang="zh">珍视日常的经验；你不需要完美的主角。</span></span></li>
+          <li><span class="num">Ⅴ</span><span><span lang="en">Understand what art cannot do. It can comfort, but it cannot replace real human connection.</span><span lang="zh">明白艺术做不到什么。它能安慰人，却无法替代真实的人际连接。</span></span></li>
+        </ol>
+        <p class="quote">
+          <span lang="en">“Art shows our inner world, but it cannot fix every problem.”</span>
+          <span lang="zh">“艺术呈现我们的内心，但它并不能解决所有问题。”</span>
+        </p>
+      </div>
+
+      <div class="caps reveal">
+        <span><span lang="en">Illustration</span><span lang="zh">插画</span></span>
+        <span><span lang="en">Children's picture books</span><span lang="zh">儿童绘本</span></span>
+        <span><span lang="en">Visual development</span><span lang="zh">视觉开发</span></span>
+        <span><span lang="en">Game &amp; brand visual design</span><span lang="zh">游戏与品牌视觉</span></span>
+        <span><span lang="en">AIGC production</span><span lang="zh">AIGC 内容生产</span></span>
+        <span>Procreate · PS · AI · AE · C4D · Blender · Unity</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 02 PORTFOLIO ================= -->
+  <section class="part" id="portfolio">
+    <div class="wrap">
+      <div class="part-head">
+        <div class="part-num" aria-hidden="true">02</div>
+        <div>
+          <p class="part-kicker"><span lang="en">Part 2 of 3</span><span lang="zh">第二部分 / 共三部分</span></p>
+          <h2>
+            <span lang="en">A short portfolio</span>
+            <span lang="zh">简短作品集</span>
+          </h2>
+          <p class="sub">
+            <span lang="en">Flip through the picture books below, then the work around them: character studies, visual research and commercial image-making.</span>
+            <span lang="zh">下面是绘本本体的翻页阅读，之后是与它相关的其他作品：角色设定、视觉研究与商业图像。</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- ===== flip-through reader ===== -->
+      <div class="reader reveal" id="reader">
+        <div class="reader-head">
+          <div class="reader-intro">
+            <p class="part-kicker"><span lang="en">Flip through · the books themselves</span><span lang="zh">翻开看看 · 绘本本体</span></p>
+            <h3>
+              <span lang="en">《It's Okay That I Cried》 — three volumes + the parent handbook</span>
+              <span lang="zh">《我，哭了没关系》—— 小X成长记系列 · 三册绘本 + 家长手册</span>
+            </h3>
+            <p class="reader-sub">
+              <span lang="en">33 pages, shown the way they were drawn: wide spreads, one turn at a time. Use the arrows, swipe the page, or press ← → .</span>
+              <span lang="zh">共 33 页，按原稿的横开跨页呈现。用两侧箭头翻页，也可以左右滑动，或按键盘 ← →。</span>
+            </p>
+          </div>
+          <div class="reader-tabs" role="group" aria-label="选择册数">
+            <button class="rtab" type="button" data-book="b1" aria-pressed="true">
+              <span lang="en">Vol. I</span><span lang="zh">第一册</span><small><span lang="en">9p</span><span lang="zh">9页</span></small>
+            </button>
+            <button class="rtab" type="button" data-book="b2" aria-pressed="false">
+              <span lang="en">Vol. II</span><span lang="zh">第二册</span><small><span lang="en">9p</span><span lang="zh">9页</span></small>
+            </button>
+            <button class="rtab" type="button" data-book="b3" aria-pressed="false">
+              <span lang="en">Vol. III</span><span lang="zh">第三册</span><small><span lang="en">9p</span><span lang="zh">9页</span></small>
+            </button>
+            <button class="rtab" type="button" data-book="hb" aria-pressed="false">
+              <span lang="en">Handbook</span><span lang="zh">家长手册</span><small><span lang="en">6p</span><span lang="zh">6页</span></small>
+            </button>
+          </div>
+        </div>
+
+        <div class="book" id="book" tabindex="0" role="group" aria-label="绘本翻页，用左右方向键或两侧箭头">
+          <button class="bkn bkn-prev" id="bkPrev" type="button" aria-label="上一页">‹</button>
+          <div class="book-stage" id="bookStage">
+            <img id="bkImg" src="assets/book/b1-01.jpg" alt="《我，哭了没关系》第一册 第 1 页" width="2400" height="800">
+            <div class="bk-turner" id="bkTurner" aria-hidden="true">
+              <img id="bkTurnerImg" src="" alt="">
+              <span class="bk-back"></span>
+            </div>
+          </div>
+          <button class="bkn bkn-next" id="bkNext" type="button" aria-label="下一页">›</button>
+        </div>
+
+        <div class="book-foot">
+          <div class="bk-bar" aria-hidden="true"><i id="bkBar"></i></div>
+          <div class="bk-line">
+            <span class="bk-now" id="bkNow">
+              <span lang="en">Volume I</span><span lang="zh">第一册</span>
+            </span>
+            <span class="bk-count" id="bkCount">1 / 9</span>
+          </div>
+          <div class="bk-thumbs" id="bkThumbs" role="group" aria-label="跳到某一页"></div>
+        </div>
+      </div>
+
+      <div class="filters" role="group" aria-label="Filter works">
+        <button type="button" data-filter="all" aria-pressed="true"><span lang="en">All</span><span lang="zh">全部</span></button>
+        <button type="button" data-filter="illustration" aria-pressed="false"><span lang="en">Illustration</span><span lang="zh">插画</span></button>
+        <button type="button" data-filter="research" aria-pressed="false"><span lang="en">Visual research</span><span lang="zh">视觉研究</span></button>
+        <button type="button" data-filter="commercial" aria-pressed="false"><span lang="en">Commercial &amp; AIGC</span><span lang="zh">商业与 AIGC</span></button>
+      </div>
+
+      <div class="gallery" id="gallery">
+
+        <!-- work 1 -->
+        <article class="work w-5" data-tag="illustration" data-title="It's Okay That I Cried">
+          <div class="shot r-cover zoom" data-img="assets/book/hb-01.jpg" tabindex="0" role="button"
+               aria-label="打开家长手册封面">
+            <img src="assets/book/hb-01.jpg" width="1480" height="1050" loading="lazy"
+                 alt="《我，哭了没关系》家长手册封面：妈妈抱着哭泣的孩子。">
+            <span class="zoomhint" aria-hidden="true">⤢</span>
+          </div>
+          <div class="wbody">
+            <h3><span lang="en">It's Okay That I Cried</span><span lang="zh">我，哭了没关系</span></h3>
+            <p class="meta">
+              <span class="cat"><span lang="en">Parent handbook</span><span lang="zh">家长手册</span></span>
+              <span>2026</span>
+              <span><span lang="en">6 pages · a guide for parents</span><span lang="zh">6 页 · 亲子共读指南</span></span>
+            </p>
+            <p>
+              <span lang="en">A therapeutic picture book for children aged 3–6 and the adults who read with them. The protagonist is an ordinary girl, not a star: she cries when she falls, gets upset over a toy, and doesn't want to let go at the kindergarten gate. The book never says “don't cry”. It follows one feeling from the moment it appears to the moment it settles, and lets it be normal. The handbook was written for the second reader — the adult who often doesn't know what to say.</span>
+              <span lang="zh">一本写给 3–6 岁孩子的情绪疗愈绘本，也写给他身边一起读的大人。主角并不是什么小明星，只是一个普通的小女孩：摔倒了会哭，抢玩具会委屈，在幼儿园门口舍不得松手。这本书从不说“不许哭”，它只是陪一种情绪从出现、到顶点、再到平息，让“这样很正常”被说出来。家长手册则写给第二位读者——那位常常不知道该怎么开口的大人。</span>
+            </p>
+            <div class="tags"><i><span lang="en">Illustration</span><span lang="zh">插画</span></i><i><span lang="en">Layout</span><span lang="zh">版面</span></i><i><span lang="en">Writing</span><span lang="zh">文案</span></i></div>
+          </div>
+        </article>
+
+        <!-- work 2 -->
+        <article class="work w-7" data-tag="illustration" data-title="Little X, ages 3–6">
+          <div class="shot r-ages zoom" data-img="assets/littlex-ages.jpg" tabindex="0" role="button"
+               aria-label="Open the character study Little X, ages 3 to 6">
+            <img src="assets/littlex-ages.jpg" width="698" height="380" loading="lazy"
+                 alt="Four drawings of the same girl at ages three, four, five and six, each holding the same white comfort doll.">
+            <span class="zoomhint" aria-hidden="true">⤢</span>
+          </div>
+          <div class="wbody">
+            <h3><span lang="en">Little X, ages 3–6</span><span lang="zh">小 X 的三到六岁</span></h3>
+            <p class="meta">
+              <span class="cat"><span lang="en">Character study</span><span lang="zh">角色研究</span></span>
+              <span>2026</span>
+              <span><span lang="en">Series development</span><span lang="zh">系列角色设定</span></span>
+            </p>
+            <p>
+              <span lang="en">One girl, four ages, one companion doll. I drew her four times so a single character could carry four different emotional ages: the doll changes size in her arms, her posture straightens, her gaze moves from the floor up to the reader. The doll is the detail that does the work — children recognise their own comfort object before they recognise themselves.</span>
+              <span lang="zh">同一个女孩，四个年龄，一只陪伴她的玩偶。我把她画了四遍，让同一个角色承载四种不同的情绪年龄：玩偶在她怀里的大小在变，背脊一点点挺直，视线从地面慢慢抬向读者。真正起作用的是那只玩偶——孩子总是先认出自己的安抚物，再认出自己。</span>
+            </p>
+
+            <div class="agerail">
+              <div class="rail" role="group" aria-label="Choose an age">
+                <button class="age" type="button" data-age="3" aria-pressed="true">3</button>
+                <button class="age" type="button" data-age="4" aria-pressed="false">4</button>
+                <button class="age" type="button" data-age="5" aria-pressed="false">5</button>
+                <button class="age" type="button" data-age="6" aria-pressed="false">6</button>
+                <span class="guide" id="ageGuide" aria-hidden="true"></span>
+              </div>
+              <p class="agecap" aria-live="polite">
+                <span data-cap="3" class="on"><span lang="en">Three — the feeling arrives before the words do.</span><span lang="zh">三岁——情绪先到，话还没跟上。</span></span>
+                <span data-cap="4"><span lang="en">Four — the toy becomes something to hold on to.</span><span lang="zh">四岁——玩偶成了可以抓住的东西。</span></span>
+                <span data-cap="5"><span lang="en">Five — she starts to name what she feels.</span><span lang="zh">五岁——她开始给情绪起名字。</span></span>
+                <span data-cap="6"><span lang="en">Six — she can hold a feeling and still stand up.</span><span lang="zh">六岁——她能带着情绪，也仍然站得住。</span></span>
+              </p>
+              <p class="hint"><span lang="en">Pick an age</span><span lang="zh">选择一个年龄</span></p>
+            </div>
+          </div>
+        </article>
+
+        <!-- work 3 -->
+        <article class="work w-12" data-tag="research" data-title="Ages 3–6: the emotional window">
+          <div class="shot wide zoom" data-img="assets/dev-chart.jpg" tabindex="0" role="button"
+               aria-label="Open the development chart for ages 3 to 6">
+            <img src="assets/dev-chart.jpg" width="1345" height="369" loading="lazy"
+                 alt="Two-page infographic comparing brain development, emotional cognition and behaviour at ages three and four, then five and six.">
+            <span class="zoomhint" aria-hidden="true">⤢</span>
+          </div>
+          <div class="wbody">
+            <h3><span lang="en">Ages 3–6: the emotional window</span><span lang="zh">三到六岁：情绪的窗口期</span></h3>
+            <p class="meta">
+              <span class="cat"><span lang="en">Research visualisation</span><span lang="zh">研究图表</span></span>
+              <span>2026</span>
+              <span><span lang="en">Figure from my research paper</span><span lang="zh">论文插图</span></span>
+            </p>
+            <p>
+              <span lang="en">A chart I designed for my paper on art-therapy picture books. Two spreads, two age bands, three layers each: brain development, emotional cognition, behaviour. It is the argument standing behind the drawings — a picture book suits this age because the visual channel opens before the verbal one, and a feeling that cannot be said can still be seen.</span>
+              <span lang="zh">这是我为艺术疗愈绘本研究论文设计的图表。两个跨页、两个年龄段，每个年龄分三层：大脑发育、情绪认知、行为表现。它是画作背后的论证——绘本之所以适合这个年龄，是因为视觉通道比语言更早打开：说不出来的情绪，仍然可以被看见。</span>
+            </p>
+            <div class="tags"><i><span lang="en">Information design</span><span lang="zh">信息设计</span></i><i><span lang="en">Research</span><span lang="zh">研究</span></i></div>
+          </div>
+        </article>
+
+        <!-- work 4 -->
+        <article class="work w-12" data-tag="commercial">
+          <div class="case">
+            <div>
+              <h3><span lang="en">Game worlds, at speed</span><span lang="zh">游戏世界的快速生产</span></h3>
+              <p class="meta">
+                <span class="cat"><span lang="en">Commercial &amp; AIGC</span><span lang="zh">商业与 AIGC</span></span>
+                <span>2025–2026</span>
+              </p>
+              <p>
+                <span lang="en">Two internships. At NetEase I made banners, key visuals and event boards for World of Warcraft CN — including the Rosen convenience-store collaboration and the Carnival “Infinite Party” boards — holding one brand language across many channels in very short cycles. At BINGCHUAN I ran overseas user research and produced AI video at scale. The lesson was the same as in the picture books: the image has to carry the feeling before anyone reads the words.</span>
+                <span lang="zh">两段实习。在网易，我为《魔兽世界》国服制作横幅、主视觉与活动展板——包括罗森联动与嘉年华“无限派对”的展板——在很短的周期里，让同一个品牌语言贯穿多个渠道。在冰川网络，我做海外用户调研，并规模化地产出 AI 视频。那个道理和画绘本时一样：图像必须先承载情绪，文字才有人愿意读。</span>
+              </p>
+            </div>
+            <div>
+              <svg class="pipeline" viewBox="0 0 460 120" role="img" aria-label="Production pipeline: research, storyboard, AIGC generation, selection, delivery.">
+                <path class="flow" d="M40 34 H420"></path>
+                <circle class="dot" cx="40" cy="34" r="4"></circle>
+                <circle class="dot" cx="135" cy="34" r="4"></circle>
+                <circle class="dot" cx="230" cy="34" r="4"></circle>
+                <circle class="dot" cx="325" cy="34" r="4"></circle>
+                <circle class="dot" cx="420" cy="34" r="4"></circle>
+                <circle cx="40" cy="34" r="15" class="node"></circle>
+                <circle cx="135" cy="34" r="15" class="node"></circle>
+                <circle cx="230" cy="34" r="15" class="node"></circle>
+                <circle cx="325" cy="34" r="15" class="node"></circle>
+                <circle cx="420" cy="34" r="15" class="node"></circle>
+                <text x="40" y="72" text-anchor="middle"><tspan lang="en">Research</tspan><tspan lang="zh">调研</tspan></text>
+                <text x="135" y="72" text-anchor="middle"><tspan lang="en">Storyboard</tspan><tspan lang="zh">分镜</tspan></text>
+                <text x="230" y="72" text-anchor="middle"><tspan lang="en">AIGC</tspan><tspan lang="zh">生成</tspan></text>
+                <text x="325" y="72" text-anchor="middle"><tspan lang="en">Select</tspan><tspan lang="zh">筛选</tspan></text>
+                <text x="420" y="72" text-anchor="middle"><tspan lang="en">Deliver</tspan><tspan lang="zh">交付</tspan></text>
+                <text x="40" y="88" text-anchor="middle" opacity=".62"><tspan lang="en">user persona</tspan><tspan lang="zh">用户画像</tspan></text>
+                <text x="135" y="88" text-anchor="middle" opacity=".62"><tspan lang="en">shot list</tspan><tspan lang="zh">镜头表</tspan></text>
+                <text x="230" y="88" text-anchor="middle" opacity=".62"><tspan lang="en">batch render</tspan><tspan lang="zh">批量出图</tspan></text>
+                <text x="325" y="88" text-anchor="middle" opacity=".62"><tspan lang="en">human edit</tspan><tspan lang="zh">人工精修</tspan></text>
+                <text x="420" y="88" text-anchor="middle" opacity=".62"><tspan lang="en">channel fit</tspan><tspan lang="zh">渠道适配</tspan></text>
+                <text x="230" y="112" text-anchor="middle" opacity=".5" style="font-size:8.4px"><tspan lang="en">— one visual language, five steps —</tspan><tspan lang="zh">— 一套视觉语言，五个步骤 —</tspan></text>
+              </svg>
+            </div>
+          </div>
+          <div class="metrics m4">
+            <div><b>421</b><small><span lang="en">AI videos generated</span><span lang="zh">AI 视频产出</span></small></div>
+            <div><b>76</b><small><span lang="en">Creative cuts</span><span lang="zh">创意视频</span></small></div>
+            <div><b>4</b><small><span lang="en">Interactive game UIs</span><span lang="zh">交互游戏界面</span></small></div>
+            <div><b>14</b><small><span lang="en">National &amp; provincial awards</span><span lang="zh">国家级与省级奖项</span></small></div>
+          </div>
+          <div class="wbody" style="padding-top:0">
+            <div class="tags"><i>AIGC</i><i><span lang="en">Brand</span><span lang="zh">品牌</span></i><i><span lang="en">Game marketing</span><span lang="zh">游戏营销</span></i></div>
+          </div>
+        </article>
+
+      </div>
+      <p class="hint"><span lang="en">Filter by discipline, or click an image to enlarge.</span><span lang="zh">按类别筛选，或点击图片放大。</span></p>
+    </div>
+  </section>
+
+  <!-- ================= 03 LEARNINGS ================= -->
+  <section class="part" id="learnings">
+    <div class="wrap">
+      <div class="part-head">
+        <div class="part-num" aria-hidden="true">03</div>
+        <div>
+          <p class="part-kicker"><span lang="en">Part 3 of 3</span><span lang="zh">第三部分 / 共三部分</span></p>
+          <h2>
+            <span lang="en">What I actually learned</span>
+            <span lang="zh">我真正学到的东西</span>
+          </h2>
+          <p class="sub">
+            <span lang="en">Four things from this course that changed how I look at my own work — and two things you can play with below.</span>
+            <span lang="zh">这门课里有四件事改变了我看自己作品的方式——下面还有两个可以动手玩一玩的部分。</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="learn">
+        <article class="lrow reveal">
+          <span class="ln">01</span>
+          <div>
+            <h3><span lang="en">Media is not neutral</span><span lang="zh">媒介并不中立</span></h3>
+            <p>
+              <span lang="en">Digital media theory taught me that software settings, platform rules and algorithms decide part of what we see. I no longer assume my default brushes, or the style that happens to be trending, are simply “how it looks”. If I follow an algorithm's taste without asking, I am not making a choice — I am inheriting one.</span>
+              <span lang="zh">数字媒介理论让我意识到：软件的默认设置、平台规则和算法，都在决定我们看见什么。我不再默认自己的笔刷，或正好流行的风格，就是“它本来的样子”。如果不加追问地跟随算法的口味，我不是在做选择，而是在继承一个选择。</span>
+            </p>
+          </div>
+        </article>
+
+        <article class="lrow reveal">
+          <span class="ln">02</span>
+          <div>
+            <h3><span lang="en">The audience is a participant</span><span lang="zh">观众是参与者</span></h3>
+            <p>
+              <span lang="en">In Web 1.0 people could only read; in Web 2.0 they comment, share and make their own version. So a piece of visual work is not finished when I export it — it gets finished by the people who respond to it. I design for the response now, not only for the screenshot.</span>
+              <span lang="zh">Web 1.0 的人只能阅读；Web 2.0 的人会评论、转发，并做出自己的版本。所以一件视觉作品，不是在我导出时就完成的——它由回应它的人完成。我现在为“回应”而设计，而不只是为了那一张好看的截图。</span>
+            </p>
+          </div>
+        </article>
+
+        <article class="lrow reveal">
+          <span class="ln">03</span>
+          <div>
+            <h3><span lang="en">Be honest with images</span><span lang="zh">对图像保持诚实</span></h3>
+            <p>
+              <span lang="en">Photo editing and AIGC can produce a beautiful picture of something that never happened. That is exactly why the rule stays simple: I cannot fool people with false material. The work can be soft, quiet and emotional — but it cannot be a lie.</span>
+              <span lang="zh">修图与 AIGC 可以做出很美、却从未发生过的东西。正因如此，这条规则才要简单：不能用虚假的材料骗人。作品可以柔软、安静、充满情绪——但它不能是谎言。</span>
+            </p>
+          </div>
+        </article>
+      </div>
+
+      <!-- interactive 1: rhetoric -->
+      <div class="triad reveal">
+        <p class="part-kicker"><span lang="en">Interactive · rhetoric</span><span lang="zh">互动 · 修辞学</span></p>
+        <h3><span lang="en">Three pillars, three jobs in design</span><span lang="zh">三个支柱，在设计中各司其职</span></h3>
+        <p class="intro">
+          <span lang="en">Rhetoric turned out to be the most practical theory I met this term. Aristotle's Ethos, Pathos and Logos are not only for speeches — each one maps onto a different layer of the things I build.</span>
+          <span lang="zh">修辞学是我这学期遇到的最“好用”的理论。亚里士多德的信誉、情感与逻辑，并不只服务于演讲——它们各自对应着我所做的东西的不同层面。</span>
+        </p>
+        <div class="pillars" role="group" aria-label="Rhetorical pillars">
+          <button class="pillar" type="button" data-pillar="pathos" aria-pressed="true">
+            <b>Pathos</b><small><span lang="en">Emotion</span><span lang="zh">情感</span></small>
+            <span><span lang="en">What the audience already feels.</span><span lang="zh">观众已经感受到的东西。</span></span>
+          </button>
+          <button class="pillar" type="button" data-pillar="logos" aria-pressed="false">
+            <b>Logos</b><small><span lang="en">Reason</span><span lang="zh">逻辑</span></small>
+            <span><span lang="en">The rules and the feedback loop.</span><span lang="zh">规则与反馈闭环。</span></span>
+          </button>
+          <button class="pillar" type="button" data-pillar="ethos" aria-pressed="false">
+            <b>Ethos</b><small><span lang="en">Credibility</span><span lang="zh">信誉</span></small>
+            <span><span lang="en">The consistency of a world.</span><span lang="zh">一个世界的自洽。</span></span>
+          </button>
+        </div>
+        <div class="panel" id="pillarPanel" aria-live="polite">
+          <div class="pdetail" data-detail="pathos">
+            <p class="k"><span lang="en">In my work</span><span lang="zh">在我的作品里</span></p>
+            <p><span lang="en">Understanding the taste of the audience, and letting the image reach it. In a game UI it is the colour, the weight, the pause before the reward. In a picture book it is the low saturation and the small, quiet detail — the feeling is persuaded, never told.</span><span lang="zh">理解观众的口味，并让图像抵达它。在游戏界面里，它是颜色、重量、奖励出现前的那半秒停顿；在绘本里，它是低饱和的颜色和安静的小细节——情绪是被“劝服”的，而不是被告知的。</span></p>
+          </div>
+          <div class="pdetail" data-detail="logos" hidden>
+            <p class="k"><span lang="en">In my work</span><span lang="zh">在我的作品里</span></p>
+            <p><span lang="en">The rules and the feedback loop. When a button behaves the way a player expects, the interface is quietly making a logical argument: this world follows laws, so you can trust your own decisions in it.</span><span lang="zh">规则与反馈闭环。当一个按钮的反应正如玩家所料，界面其实在安静地做一次逻辑论证：这个世界有其法则，所以你可以相信自己的判断。</span></p>
+          </div>
+          <div class="pdetail" data-detail="ethos" hidden>
+            <p class="k"><span lang="en">In my work</span><span lang="zh">在我的作品里</span></p>
+            <p><span lang="en">Consistent IP visuals and brand materials. If the same world looks like the same world every time it appears, people trust it — and trust is what lets a soft, quiet image be taken seriously in a commercial channel.</span><span lang="zh">统一的 IP 视觉与品牌物料。如果同一个世界每次出现都还是那个世界，人们就会相信它——而正是这种信任，让一张安静的、柔软的画面，在商业渠道里也能被认真对待。</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- interactive 2: criticism spectrum -->
+      <div class="spectrum reveal">
+        <p class="part-kicker"><span lang="en">Interactive · art criticism</span><span lang="zh">互动 · 艺术批评</span></p>
+        <h3><span lang="en">Where does criticism sit?</span><span lang="zh">批评应该站在哪里？</span></h3>
+        <p class="intro">
+          <span lang="en">Drag the marker — or pick a name. My answer never settles at either end.</span>
+          <span lang="zh">拖动标记，或者点一个名字。我的答案从不停在两端。</span>
+        </p>
+        <div class="specwrap">
+          <span class="mid"><span lang="en">my position</span><span lang="zh">我的位置</span></span>
+          <input id="spec" type="range" min="0" max="4" step="1" value="2" aria-label="Position between subjective and objective criticism">
+        </div>
+        <div class="stops" role="group" aria-label="Criticism positions">
+          <button type="button" data-i="0" aria-pressed="false"><span lang="en">Subjective</span><span lang="zh">纯主观</span><small><span lang="en">taste</span><span lang="zh">喜好</span></small></button>
+          <button type="button" data-i="1" aria-pressed="false"><span lang="en">Diderot</span><span lang="zh">狄德罗</span><small><span lang="en">18th c.</span><span lang="zh">18世纪</span></small></button>
+          <button type="button" data-i="2" aria-pressed="true"><span lang="en">Baudelaire &amp; Zola</span><span lang="zh">波德莱尔与左拉</span><small><span lang="en">19th c.</span><span lang="zh">19世纪</span></small></button>
+          <button type="button" data-i="3" aria-pressed="false"><span lang="en">Greenberg</span><span lang="zh">格林伯格</span><small><span lang="en">20th c.</span><span lang="zh">20世纪</span></small></button>
+          <button type="button" data-i="4" aria-pressed="false"><span lang="en">Objective</span><span lang="zh">纯客观</span><small><span lang="en">evidence</span><span lang="zh">证据</span></small></button>
+        </div>
+        <div class="spector" aria-live="polite">
+          <div>
+            <p class="lbl" id="specLbl"><span lang="en">Baudelaire &amp; Zola, 19th century</span><span lang="zh">波德莱尔与左拉，19世纪</span></p>
+            <div class="sdetail" data-spec="0" hidden>
+              <p><span lang="en">Only personal taste: “I like it” or “I don't.” No history, no theory, no context. Criticism becomes a mood — and a mood cannot be argued with.</span><span lang="zh">只凭个人喜好：“我喜欢”或“我不喜欢”。不谈历史、不谈理论、不谈语境。批评于是变成一种心情——而心情是无法被讨论的。</span></p>
+            </div>
+            <div class="sdetail" data-spec="1" hidden>
+              <p><span lang="en">Diderot, the father of modern art criticism, wrote the Salon reviews from his own point of view. What he published was a personal opinion — and that public, subjective voice became the counter-weight to the royal academy's rigid rules.</span><span lang="zh">现代艺术批评之父狄德罗，写沙龙评论时本身就带着自己的视角。他发表的是一种私人意见——而正是这种公众的、主观的声音，成为了制衡皇家学院僵化教条的砝码。</span></p>
+            </div>
+            <div class="sdetail" data-spec="2">
+              <p><span lang="en">Baudelaire and Zola took sides for the Impressionists before the academy did. Clear positions, not neutrality — criticism as advocacy. It is not objective, and it still changed what counted as art.</span><span lang="zh">在学院承认之前，波德莱尔与左拉就主动为印象派站队。是鲜明立场，而非中立——批评成为一种辩护。它并不客观，却确实改变了什么算作艺术。</span></p>
+            </div>
+            <div class="sdetail" data-spec="3" hidden>
+              <p><span lang="en">Formalist criticism built a theoretical frame — flatness, pure colour, the properties of the medium — so that judgement would not collapse back into liking and disliking. Full subjectivity is stopped here, but somebody still chose what to look at.</span><span lang="zh">形式主义批评搭起一套理论框架——平面性、色彩的纯粹性、媒介自身的特质——让判断不至于又滑回“喜欢 / 不喜欢”。完全的主观在这里被拦住了，但“看什么”仍然是有人在选。</span></p>
+            </div>
+            <div class="sdetail" data-spec="4" hidden>
+              <p><span lang="en">Institutional critique uses academic theory to examine Eurocentrism and systemic bias inside art institutions. The tools are shared and the evidence matters — but the choice of which wall to look at is still made by a person.</span><span lang="zh">机构批判借助学术理论，剖析艺术机构内部的欧洲中心主义与结构性偏见。工具是共享的，证据是重要的——但“去看哪一面墙”，仍然是人做出来的选择。</span></p>
+            </div>
+          </div>
+          <div class="verdict">
+            <span lang="en">Good criticism includes the feeling the work produced in me — then puts that feeling on a ground of art history, formal analysis, social context and theory. Subjectivity gives criticism its energy. Objectivity gives it something to argue with.</span>
+            <span lang="zh">好的艺术批评，既包含作品在我身上引起的主观感受，也把这份感受安放在艺术史、形式分析、社会语境与理论之上。主观给批评以活力，客观给批评以可讨论的依据。</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- interactive 3: before / after -->
+      <div class="flips reveal">
+        <p class="part-kicker" style="margin-bottom:6px"><span lang="en">Interactive · before / after</span><span lang="zh">互动 · 之前 / 之后</span></p>
+        <button class="fliprow" type="button" aria-pressed="false">
+          <span class="side before"><span lang="en">I judged a piece by whether it looked good.</span><span lang="zh">我以前用“好不好看”来判断一件作品。</span></span>
+          <span class="arrow" aria-hidden="true">→</span>
+          <span class="side after"><span lang="en">Now I ask about its technical background, its user experience, and the social message it carries.</span><span lang="zh">现在我会问它的技术背景、用户体验，以及它带着什么样的社会讯息。</span></span>
+        </button>
+        <button class="fliprow" type="button" aria-pressed="false">
+          <span class="side before"><span lang="en">I thought the picture was the whole work.</span><span lang="zh">我以前以为一张画就是作品的全部。</span></span>
+          <span class="arrow" aria-hidden="true">→</span>
+          <span class="side after"><span lang="en">Now I see the networks, the software, the platform rules and the people interacting with it.</span><span lang="zh">现在我看见它背后的网络、软件、平台规则，以及和它互动的人。</span></span>
+        </button>
+        <button class="fliprow" type="button" aria-pressed="false">
+          <span class="side before"><span lang="en">I thought AI only made production faster.</span><span lang="zh">我以前以为 AI 只是让生产变快了。</span></span>
+          <span class="arrow" aria-hidden="true">→</span>
+          <span class="side after"><span lang="en">Now I ask how the whole visual system guides the audience — and whether it fits the story and the goal.</span><span lang="zh">现在我会想：整个视觉系统如何引导观众？它与故事和目标是否吻合？</span></span>
+        </button>
+        <p class="hint"><span lang="en">Click a row to flip it.</span><span lang="zh">点击每一行可以翻面。</span></p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= OUTRO ================= -->
+  <section class="outro" id="outro">
+    <div class="wrap">
+      <p class="part-kicker"><span lang="en">And that is the whole argument</span><span lang="zh">以上就是全部的论点</span></p>
+      <p class="big reveal">
+        <span lang="en">Let art see <em>every</em> real human feeling.</span>
+        <span lang="zh">让艺术看见<em>每一种</em>真实的感受。</span>
+      </p>
+      <p class="sig">
+        <b><span lang="en">Zheng Kaiyu</span><span lang="zh">郑铠妤</span></b><br>
+        <span lang="en">Student ID 069 · Art &amp; Design, Hubei University</span>
+        <span lang="zh">学号后三位 069 · 湖北大学 艺术与设计</span><br>
+        <span lang="en">Critical Writing and Reading in Arts · Class 16 · Final Exam, Part 2</span>
+        <span lang="zh">艺术批评与阅读写作 · 第16课 · 期末考试第二部分</span>
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap frow">
+    <span>© 2026 <span lang="en">Zheng Kaiyu</span><span lang="zh">郑铠妤</span></span>
+    <span><span lang="en">Course: Camilo Andrés Rojo Ortiz · Hubei University</span><span lang="zh">授课教师：Camilo Andrés Rojo Ortiz（奥尔）· 湖北大学</span></span>
+    <a href="#top"><span lang="en">Back to top ↑</span><span lang="zh">回到顶部 ↑</span></a>
+  </div>
+</footer>
+
+<!-- lightbox -->
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Artwork viewer">
+  <button class="lb-close" id="lbClose" type="button" aria-label="Close">✕</button>
+  <button class="lb-nav lb-prev" id="lbPrev" type="button" aria-label="Previous">‹</button>
+  <button class="lb-nav lb-next" id="lbNext" type="button" aria-label="Next">›</button>
+  <div class="lb-inner">
+    <img id="lbImg" src="" alt="">
+    <p class="lb-cap"><b id="lbTitle"></b><span id="lbCount"></span></p>
+  </div>
+</div>
+
+<script src="app.js" defer></script>
+</body>
+</html>
