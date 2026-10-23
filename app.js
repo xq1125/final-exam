@@ -566,6 +566,37 @@
     });
   }
 
+  /* ---------- 13. cv reader ---------- */
+  var cvModal = $('#cvModal');
+  var cvOpenBtn = $('#cvOpen');
+  var cvLastFocus = null;
+
+  function openCv() {
+    if (!cvModal) return;
+    cvLastFocus = document.activeElement;
+    cvModal.hidden = false;
+    cvModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    var c = $('#cvClose');
+    if (c) c.focus();
+  }
+  function closeCv() {
+    if (!cvModal) return;
+    cvModal.classList.remove('open');
+    cvModal.hidden = true;
+    document.body.style.overflow = '';
+    if (cvLastFocus && cvLastFocus.focus) cvLastFocus.focus();
+  }
+  if (cvOpenBtn) cvOpenBtn.addEventListener('click', openCv);
+  if (cvModal) {
+    cvModal.addEventListener('click', function (e) {
+      if (e.target.classList.contains('cvmodal-backdrop') || e.target.id === 'cvClose') closeCv();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !cvModal.hidden) { e.preventDefault(); closeCv(); }
+    });
+  }
+
   /* ---------- init ---------- */
   setLang(initialLang === 'zh' ? 'zh' : 'en');
   setSpec(spec ? spec.value : 2);
