@@ -354,7 +354,11 @@
       });
     }
     [bkPage - 1, bkPage + 1].forEach(function (p) {
-      if (p >= 1 && p <= b.n) { var im = new Image(); im.src = bkSrc(bkBook, p); }
+      if (p >= 1 && p <= b.n) {
+        var im = new Image();
+        im.src = bkSrc(bkBook, p);
+        if (im.decode) im.decode().catch(function () {});
+      }
     });
   }
 
@@ -422,18 +426,14 @@
       window.clearTimeout(bkTimer);
       bkTimer = window.setTimeout(bkFinish, 950);
     }
-    /* decode both faces first — otherwise the back of the leaf shows blank for a frame */
-    var jobs = [];
+    /* the neighbours are already decoded by bkMeta, so the turn can start at once
+       and the back of the leaf is painted from the first frame */
     [bkLeafImg, bkLeafBackImg].forEach(function (im) {
-      if (im && im.decode) jobs.push(im.decode().catch(function () {}));
+      if (im && im.decode) im.decode().catch(function () {});
     });
     window.clearTimeout(bkTimer);
-    bkTimer = window.setTimeout(start, 150);
-    if (jobs.length) {
-      Promise.all(jobs).then(function () { window.requestAnimationFrame(start); });
-    } else {
-      window.requestAnimationFrame(start);
-    }
+    bkTimer = window.setTimeout(start, 60);       /* rAF may not run while hidden */
+    window.requestAnimationFrame(start);
   }
 
   /* after the last spread: the book closes and you see its back cover */
@@ -499,6 +499,10 @@
     /* front = the page that moves, back = the page that lands underneath */
     if (bkLeafImg) bkLeafImg.src = dir === 'next' ? curSrc : newSrc;
     if (bkLeafBackImg) bkLeafBackImg.src = dir === 'next' ? newSrc : curSrc;
+    /* the page the leaf uncovers must already be the new one, so it shows
+       the instant the paper starts to lift */
+    if (dir === 'next') { if (bkRight) bkRight.src = newSrc; }
+    else { if (bkLeft) bkLeft.src = newSrc; }
     bkMeta();
     bkSwing('turn');
   }
