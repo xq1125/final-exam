@@ -362,6 +362,102 @@ details.st .body .sig{
 }
 .caps > span:hover{background:var(--ink);color:var(--paper-2);border-color:var(--ink);transform:translateY(-2px)}
 
+/* ---------- 01 · artist statement + archive + cv ---------- */
+.statement-card{
+  position:relative;border:1px solid var(--line);border-radius:var(--r);
+  background:#FBF7EF;
+  padding:clamp(22px,3.2vw,40px);
+  margin-top:clamp(8px,1.6vh,16px)
+}
+.sc-head{display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.sc-note{font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);margin:0}
+.sc-lead{
+  position:relative;font-family:var(--serif);font-weight:400;
+  font-size:clamp(1.02rem,1.85vw,1.38rem);line-height:1.62;color:#3A2F28;margin:0;
+  max-height:6.6em;overflow:hidden
+}
+.sc-lead p{margin:0 0 .55em}
+.sc-lead p:last-child{margin-bottom:0}
+.sc-lead::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:2.6em;pointer-events:none;
+  background:linear-gradient(180deg,rgba(251,247,239,0),rgba(251,247,239,.99))
+}
+.sc-lead [lang="zh"],.docmodal-body [lang="zh"]{
+  font-family:"Songti SC","Noto Serif SC","Source Han Serif SC",SimSun,STSong,serif
+}
+.sc-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:18px}
+.sc-hint{margin:0;font-size:11px;letter-spacing:.04em;color:var(--ink-faint)}
+
+.archive,.cv{margin-top:clamp(44px,7vh,76px)}
+.archive-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:clamp(16px,2.4vh,24px)}
+.archive-head h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.25rem,2.3vw,1.75rem);margin:.2em 0 0;letter-spacing:-.01em}
+.archive-note{margin:0;font-size:11.5px;color:var(--ink-faint);max-width:36ch;line-height:1.6}
+
+.docgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px}
+.doccard{
+  display:flex;flex-direction:column;gap:5px;text-align:left;
+  padding:17px 17px 15px;border:1px solid var(--line);border-radius:16px;
+  background:var(--card);transition:.4s var(--ease);position:relative;overflow:hidden
+}
+.doccard:hover{transform:translateY(-3px);border-color:#D3C4AE;box-shadow:0 22px 32px -28px rgba(70,45,35,.85)}
+.doccard-t{font-family:var(--serif);font-size:1rem;line-height:1.35;color:var(--ink)}
+.doccard-m{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--clay)}
+.doccard-x{font-size:.82rem;color:var(--ink-soft);line-height:1.55}
+.doccard-go{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-top:auto;padding-top:12px;transition:color .3s}
+.doccard:hover .doccard-go{color:var(--clay)}
+
+.cv-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:1px;
+  background:var(--line-soft);border:1px solid var(--line-soft);
+  border-radius:16px;overflow:hidden
+}
+@media screen and (max-width:760px){.cv-grid{grid-template-columns:1fr}}
+.cv-item{background:var(--card);padding:clamp(15px,2vw,22px)}
+.cv-k{font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--clay);margin:0 0 6px}
+.cv-v{margin:0;font-size:.86rem;line-height:1.62;color:var(--ink-soft)}
+
+/* document reader */
+.docmodal{position:fixed;inset:0;z-index:120;display:none}
+.docmodal.open{display:block}
+.docmodal-backdrop{position:absolute;inset:0;background:rgba(32,26,22,.74);backdrop-filter:blur(6px)}
+.docmodal-panel{
+  position:relative;z-index:2;width:min(760px,calc(100% - 28px));
+  max-height:min(86vh,900px);margin:max(5vh,32px) auto 0;
+  background:var(--paper-2);border-radius:14px;
+  box-shadow:0 60px 90px -50px #000;
+  display:flex;flex-direction:column;overflow:hidden;
+  animation:docIn .38s var(--ease)
+}
+@keyframes docIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.docmodal-head{position:relative;padding:24px 62px 15px clamp(20px,4vw,32px);border-bottom:1px solid var(--line-soft);flex:0 0 auto}
+.docmodal-head h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.15rem,2.1vw,1.55rem);line-height:1.28;margin:.2em 0 .35em;letter-spacing:-.01em}
+.docmodal-meta{margin:0;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
+.docmodal-close{
+  position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;
+  border:1px solid var(--line);background:var(--card);display:grid;place-items:center;
+  font-size:13px;transition:.3s var(--ease)
+}
+.docmodal-close:hover{background:var(--ink);color:var(--paper-2);border-color:var(--ink)}
+.docmodal-body{
+  padding:22px clamp(20px,4vw,32px) 34px;overflow-y:auto;
+  font-size:.94rem;line-height:1.8;color:var(--ink-soft);outline:none
+}
+.docmodal-body p{margin:0 0 1.05em}
+.docmodal-body p:last-child{margin-bottom:0}
+.docmodal-body h4{
+  font-family:var(--serif);font-weight:400;font-size:1.02rem;color:var(--ink);
+  margin:1.7em 0 .45em;letter-spacing:0
+}
+.docmodal-body h4:first-child{margin-top:0}
+.docmodal-body ol{margin:0 0 1.05em;padding-left:1.5em}
+.docmodal-body li{margin-bottom:.45em}
+.docmodal-body em{font-style:italic}
+.docmodal-body .doc-keys{margin-top:1.3em;font-size:.85rem;color:var(--ink-faint)}
+@media screen and (max-width:640px){
+  .docmodal-panel{max-height:90vh;margin-top:4vh;border-radius:12px}
+  .docmodal-body{font-size:.88rem}
+}
+
 /* ---------- portfolio ---------- */
 /* flip-through reader */
 .reader{
@@ -787,6 +883,28 @@ footer a:hover{color:var(--ink)}
   .part-head .sub{font-size:8.6pt;max-width:118mm}
 
   /* part 1 */
+  .statement-card{background:#FBF7EF !important;padding:4.5mm;margin-top:2.5mm;box-shadow:none}
+  .sc-head{margin-bottom:2mm}
+  .sc-note{font-size:6.4pt}
+  .sc-lead{max-height:none;overflow:visible;font-size:9.2pt;line-height:1.55}
+  .sc-lead::after{display:none}
+  .sc-actions{margin-top:3mm}
+  .sc-hint{font-size:6.6pt}
+  .archive,.cv{margin-top:4.5mm}
+  .archive-head{margin-bottom:2.2mm}
+  .archive-head h3{font-size:10.5pt}
+  .archive-note{font-size:6.6pt}
+  .docgrid{grid-template-columns:repeat(5,1fr);gap:2mm}
+  .doccard{padding:2.4mm;break-inside:avoid;box-shadow:none}
+  .doccard-t{font-size:7pt;line-height:1.3}
+  .doccard-m{font-size:5.2pt;letter-spacing:.06em}
+  .doccard-x{font-size:6.2pt;line-height:1.35}
+  .doccard-go{font-size:5.2pt;padding-top:1.5mm}
+  .cv-grid{grid-template-columns:1fr 1fr}
+  .cv-item{padding:2.4mm}
+  .cv-k{font-size:5.6pt;margin-bottom:1mm}
+  .cv-v{font-size:6.8pt;line-height:1.4}
+  .docmodal,.docstore{display:none !important}
   details.st{break-inside:avoid}
   details.st .body{display:block !important}
   details.st summary{padding:1.6mm 2px;gap:6mm}

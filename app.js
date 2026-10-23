@@ -433,6 +433,64 @@
     bkStage.addEventListener('pointercancel', function () { swipeX = null; });
   }
 
+  /* ---------- 12. document reader (statement, essays, cv) ---------- */
+  var docModal = $('#docModal');
+  var docBody = $('#docBody');
+  var docTitle = $('#docTitle');
+  var docKicker = $('#docKicker');
+  var docMeta = $('#docMeta');
+  var docStore = $('.docstore');
+  var docLastFocus = null;
+
+  function docSpan(el, en, zh, tag) {
+    el.innerHTML = '';
+    var a = document.createElement(tag || 'span');
+    a.setAttribute('lang', 'en');
+    a.textContent = en || '';
+    var b = document.createElement(tag || 'span');
+    b.setAttribute('lang', 'zh');
+    b.textContent = zh || '';
+    el.appendChild(a);
+    el.appendChild(b);
+  }
+
+  function openDoc(id, trigger) {
+    if (!docStore || !docModal) return;
+    var art = docStore.querySelector('[data-doc="' + id + '"]');
+    if (!art) return;
+    docLastFocus = trigger || document.activeElement;
+    docBody.innerHTML = art.innerHTML;
+    docBody.scrollTop = 0;
+    docSpan(docKicker, 'Document', '文档');
+    docSpan(docTitle, art.dataset.tEn, art.dataset.tZh);
+    docSpan(docMeta, art.dataset.mEn, art.dataset.mZh);
+    docModal.hidden = false;
+    docModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    $('#docClose').focus();
+  }
+
+  function closeDoc() {
+    if (!docModal) return;
+    docModal.classList.remove('open');
+    docModal.hidden = true;
+    document.body.style.overflow = '';
+    if (docLastFocus && docLastFocus.focus) docLastFocus.focus();
+  }
+
+  $$('[data-doc]').forEach(function (b) {
+    b.addEventListener('click', function () { openDoc(b.dataset.doc, b); });
+  });
+
+  if (docModal) {
+    docModal.addEventListener('click', function (e) {
+      if (e.target.classList.contains('docmodal-backdrop') || e.target.id === 'docClose') closeDoc();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !docModal.hidden) { e.preventDefault(); closeDoc(); }
+    });
+  }
+
   /* ---------- init ---------- */
   setLang(initialLang === 'zh' ? 'zh' : 'en');
   setSpec(spec ? spec.value : 2);
