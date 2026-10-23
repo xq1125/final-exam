@@ -175,19 +175,39 @@
   });
 
   /* ---------- 6. age rail ---------- */
-  var AGE_X = { 3: 16.5, 4: 35.4, 5: 57.6, 6: 80.5 };
   var ageButtons = $$('.age');
   var ageCaps = $$('.agecap > span');
   var guide = $('#ageGuide');
+  var curAge = 3;
+
+  /* centre the dot under whichever number is active, whatever the width */
+  function placeGuide(btn) {
+    if (!guide) return;
+    if (!btn) { guide.style.opacity = '0'; return; }
+    var rail = btn.parentNode;
+    var r = rail.getBoundingClientRect();
+    var b = btn.getBoundingClientRect();
+    if (!b.width || !r.width) return;
+    guide.style.opacity = '1';
+    guide.style.left = (b.left - r.left + b.width / 2) + 'px';
+  }
 
   function setAge(a) {
-    ageButtons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.age === String(a))); });
+    curAge = String(a);
+    var active = null;
+    ageButtons.forEach(function (b) {
+      var on = b.dataset.age === String(a);
+      b.setAttribute('aria-pressed', String(on));
+      if (on) active = b;
+    });
     ageCaps.forEach(function (c) { c.classList.toggle('on', c.dataset.cap === String(a)); });
-    if (guide) guide.style.left = (AGE_X[a] || 50) + '%';
+    placeGuide(active);
   }
   ageButtons.forEach(function (b) {
     b.addEventListener('click', function () { setAge(b.dataset.age); });
   });
+  window.addEventListener('resize', function () { placeGuide($('.age[aria-pressed="true"]')); });
+  window.addEventListener('load', function () { placeGuide($('.age[aria-pressed="true"]')); });
 
   /* ---------- 7. rhetoric pillars ---------- */
   var pillars = $$('.pillar');

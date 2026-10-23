@@ -679,16 +679,19 @@ details.st .body .sig{
 }
 
 /* age rail */
-.agerail{margin-top:18px;border-top:1px solid var(--line-soft);padding-top:16px}
-.agerail .rail{position:relative;display:flex;justify-content:space-between;gap:4px;padding-bottom:10px}
+.agerail{align-self:stretch;margin-top:18px;border-top:1px solid var(--line-soft);padding-top:16px}
+.agerail .rail{
+  position:relative;display:flex;align-items:center;justify-content:space-between;
+  gap:clamp(10px,2.6vw,30px);padding-bottom:17px;width:100%;max-width:330px
+}
 .agerail .guide{
-  position:absolute;left:16%;width:9px;height:9px;border-radius:50%;background:var(--clay);
-  bottom:-4px;transform:translateX(-50%);transition:left .55s var(--ease);
+  position:absolute;bottom:3px;width:9px;height:9px;border-radius:50%;background:var(--clay);
+  transform:translateX(-50%);transition:left .5s var(--ease);
   box-shadow:0 0 0 4px rgba(176,96,62,.14)
 }
 .age{
-  flex:1;text-align:center;font-size:11.5px;letter-spacing:.1em;color:var(--ink-faint);
-  padding:6px 2px;border-radius:8px;transition:.35s var(--ease);position:relative
+  flex:0 0 auto;min-width:2.3em;text-align:center;font-size:12.5px;letter-spacing:.1em;
+  color:var(--ink-faint);padding:6px 4px;border-radius:8px;transition:.35s var(--ease);position:relative
 }
 .age:hover{color:var(--ink)}
 .age[aria-pressed="true"]{color:var(--clay);font-weight:600}
@@ -1006,6 +1009,7 @@ footer a:hover{color:var(--ink)}
   .pipeline{max-height:32mm}
   .agerail{margin-top:2mm;padding-top:2mm}
   .agerail .rail{padding-bottom:5px}
+  .agerail .guide{display:none !important}
   .age{font-size:7pt}
   .agecap{font-size:7.6pt;min-height:0;margin-top:1mm}
 
@@ -1977,19 +1981,39 @@ window.__BOOK_IMGS = {"assets/book/b1-01.jpg":"data:image/jpeg;base64,/9j/4AAQSk
   });
 
   /* ---------- 6. age rail ---------- */
-  var AGE_X = { 3: 16.5, 4: 35.4, 5: 57.6, 6: 80.5 };
   var ageButtons = $$('.age');
   var ageCaps = $$('.agecap > span');
   var guide = $('#ageGuide');
+  var curAge = 3;
+
+  /* centre the dot under whichever number is active, whatever the width */
+  function placeGuide(btn) {
+    if (!guide) return;
+    if (!btn) { guide.style.opacity = '0'; return; }
+    var rail = btn.parentNode;
+    var r = rail.getBoundingClientRect();
+    var b = btn.getBoundingClientRect();
+    if (!b.width || !r.width) return;
+    guide.style.opacity = '1';
+    guide.style.left = (b.left - r.left + b.width / 2) + 'px';
+  }
 
   function setAge(a) {
-    ageButtons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.age === String(a))); });
+    curAge = String(a);
+    var active = null;
+    ageButtons.forEach(function (b) {
+      var on = b.dataset.age === String(a);
+      b.setAttribute('aria-pressed', String(on));
+      if (on) active = b;
+    });
     ageCaps.forEach(function (c) { c.classList.toggle('on', c.dataset.cap === String(a)); });
-    if (guide) guide.style.left = (AGE_X[a] || 50) + '%';
+    placeGuide(active);
   }
   ageButtons.forEach(function (b) {
     b.addEventListener('click', function () { setAge(b.dataset.age); });
   });
+  window.addEventListener('resize', function () { placeGuide($('.age[aria-pressed="true"]')); });
+  window.addEventListener('load', function () { placeGuide($('.age[aria-pressed="true"]')); });
 
   /* ---------- 7. rhetoric pillars ---------- */
   var pillars = $$('.pillar');

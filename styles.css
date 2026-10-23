@@ -668,16 +668,19 @@ details.st .body .sig{
 }
 
 /* age rail */
-.agerail{margin-top:18px;border-top:1px solid var(--line-soft);padding-top:16px}
-.agerail .rail{position:relative;display:flex;justify-content:space-between;gap:4px;padding-bottom:10px}
+.agerail{align-self:stretch;margin-top:18px;border-top:1px solid var(--line-soft);padding-top:16px}
+.agerail .rail{
+  position:relative;display:flex;align-items:center;justify-content:space-between;
+  gap:clamp(10px,2.6vw,30px);padding-bottom:17px;width:100%;max-width:330px
+}
 .agerail .guide{
-  position:absolute;left:16%;width:9px;height:9px;border-radius:50%;background:var(--clay);
-  bottom:-4px;transform:translateX(-50%);transition:left .55s var(--ease);
+  position:absolute;bottom:3px;width:9px;height:9px;border-radius:50%;background:var(--clay);
+  transform:translateX(-50%);transition:left .5s var(--ease);
   box-shadow:0 0 0 4px rgba(176,96,62,.14)
 }
 .age{
-  flex:1;text-align:center;font-size:11.5px;letter-spacing:.1em;color:var(--ink-faint);
-  padding:6px 2px;border-radius:8px;transition:.35s var(--ease);position:relative
+  flex:0 0 auto;min-width:2.3em;text-align:center;font-size:12.5px;letter-spacing:.1em;
+  color:var(--ink-faint);padding:6px 4px;border-radius:8px;transition:.35s var(--ease);position:relative
 }
 .age:hover{color:var(--ink)}
 .age[aria-pressed="true"]{color:var(--clay);font-weight:600}
@@ -995,6 +998,7 @@ footer a:hover{color:var(--ink)}
   .pipeline{max-height:32mm}
   .agerail{margin-top:2mm;padding-top:2mm}
   .agerail .rail{padding-bottom:5px}
+  .agerail .guide{display:none !important}
   .age{font-size:7pt}
   .agecap{font-size:7.6pt;min-height:0;margin-top:1mm}
 
