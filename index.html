@@ -102,10 +102,6 @@
             <span lang="en">Introduce yourself as an artist</span>
             <span lang="zh">以艺术家的身份介绍自己</span>
           </h2>
-          <p class="sub">
-            <span lang="en">My artist statement in full — folded into a few lines here, the whole text one click away. Below it: the other writing from this term, and the short version of my CV.</span>
-            <span lang="zh">艺术家自述原文。这里只折叠成几行，全文点一下就能读完；后面还放了这学期写的其他文章，以及简历里的几行。</span>
-          </p>
         </div>
       </div>
 
@@ -297,19 +293,19 @@
               <span lang="zh">《我，哭了没关系》—— 三册绘本 + 家长手册</span>
             </h3>
             <p class="reader-sub">
-              <span lang="en">Three volumes, 27 spreads, plus 3 for the parent handbook (two pages side by side). The right page turns around the spine — use the arrows, swipe, or press ← → .</span>
-              <span lang="zh">三册绘本共 27 张跨页，家长手册 3 张跨页（两页并排）。翻页时右页绕着书脊翻过去。用两侧箭头、左右滑动，或按键盘 ← →。</span>
+              <span lang="en">Each volume opens from its cover: 8 spreads, plus 3 for the parent handbook (two pages side by side). Click the cover to open it, then turn with the arrows, a swipe, or ← →.</span>
+              <span lang="zh">每册从封面开始，翻开后 8 张跨页；家长手册 3 张跨页（两页并排）。点封面翻开，然后用两侧箭头、左右滑动或键盘 ← → 翻页。</span>
             </p>
           </div>
           <div class="reader-tabs" role="group" aria-label="选择册数">
             <button class="rtab" type="button" data-book="b1" aria-pressed="true">
-              <span lang="en">Vol. I</span><span lang="zh">第一册</span><small><span lang="en">9</span><span lang="zh">9 跨页</span></small>
+              <span lang="en">Vol. I</span><span lang="zh">第一册</span><small><span lang="en">8</span><span lang="zh">8 跨页</span></small>
             </button>
             <button class="rtab" type="button" data-book="b2" aria-pressed="false">
-              <span lang="en">Vol. II</span><span lang="zh">第二册</span><small><span lang="en">9</span><span lang="zh">9 跨页</span></small>
+              <span lang="en">Vol. II</span><span lang="zh">第二册</span><small><span lang="en">8</span><span lang="zh">8 跨页</span></small>
             </button>
             <button class="rtab" type="button" data-book="b3" aria-pressed="false">
-              <span lang="en">Vol. III</span><span lang="zh">第三册</span><small><span lang="en">9</span><span lang="zh">9 跨页</span></small>
+              <span lang="en">Vol. III</span><span lang="zh">第三册</span><small><span lang="en">8</span><span lang="zh">8 跨页</span></small>
             </button>
             <button class="rtab" type="button" data-book="hb" aria-pressed="false">
               <span lang="en">Handbook</span><span lang="zh">家长手册</span><small><span lang="en">3</span><span lang="zh">3 跨页</span></small>
@@ -325,10 +321,11 @@
             <span class="bk-gutter" aria-hidden="true"></span>
             <div class="bk-leaf" id="bkLeaf" aria-hidden="true">
               <div class="bk-face bk-face-front"><img id="bkLeafImg" src="" alt=""></div>
-              <div class="bk-face bk-face-back"></div>
+              <div class="bk-face bk-face-back"><img id="bkLeafBackImg" src="" alt=""></div>
             </div>
           </div>
           <button class="bkn bkn-next" id="bkNext" type="button" aria-label="下一页">›</button>
+          <p class="bk-hint" id="bkHint"><span lang="en">Click the cover to open</span><span lang="zh">点击封面翻开</span></p>
         </div>
 
         <div class="book-foot">

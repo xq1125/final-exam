@@ -259,11 +259,13 @@
   });
 
   /* ---------- 11. picture-book reader ---------- */
+  /* n = spreads you can read; off = which image file the first spread is;
+     cover = the book starts shut, with image 1's left half as its cover */
   var BOOKS = {
-    b1: { n: 9, ar: 3, prefix: 'b1', name: { en: 'Volume I', zh: '第一册' } },
-    b2: { n: 9, ar: 3, prefix: 'b2', name: { en: 'Volume II', zh: '第二册' } },
-    b3: { n: 9, ar: 3, prefix: 'b3', name: { en: 'Volume III', zh: '第三册' } },
-    hb: { n: 3, ar: 2.82, prefix: 'hbs', name: { en: 'Parent handbook', zh: '家长手册' } }
+    b1: { n: 8, ar: 3, prefix: 'b1', off: 2, cover: true, name: { en: 'Volume I', zh: '第一册' } },
+    b2: { n: 8, ar: 3, prefix: 'b2', off: 2, cover: true, name: { en: 'Volume II', zh: '第二册' } },
+    b3: { n: 8, ar: 3, prefix: 'b3', off: 2, cover: true, name: { en: 'Volume III', zh: '第三册' } },
+    hb: { n: 3, ar: 2.82, prefix: 'hbs', off: 1, cover: false, name: { en: 'Parent handbook', zh: '家长手册' } }
   };
 
   var bkStage = $('#bookStage');
@@ -271,6 +273,7 @@
   var bkRight = $('#bkRightImg');
   var bkLeaf = $('#bkLeaf');
   var bkLeafImg = $('#bkLeafImg');
+  var bkLeafBackImg = $('#bkLeafBackImg');
   var bkPrev = $('#bkPrev');
   var bkNext = $('#bkNext');
   var bkCount = $('#bkCount');
@@ -280,17 +283,22 @@
   var bookEl = $('#book');
   var bkBook = 'b1';
   var bkPage = 1;
+  var bkClosed = true;
   var bkBusy = false;
+  var bkPending = null;
   var bkTimer = null;
 
   function pad2(n) { return (n < 10 ? '0' : '') + n; }
-  /* the single-file build injects window.__BOOK_IMGS so it needs no external files */
-  function bkSrc(book, page) {
-    var p = 'assets/book/' + BOOKS[book].prefix + '-' + pad2(page) + '.jpg';
+  function bkFile(book, img) {
+    var p = 'assets/book/' + BOOKS[book].prefix + '-' + pad2(img) + '.jpg';
     return (window.__BOOK_IMGS && window.__BOOK_IMGS[p]) || p;
   }
+  /* spread 1 is the first readable spread, not necessarily image 1 */
+  function bkSrc(book, page) { return bkFile(book, page - 1 + BOOKS[book].off); }
+  /* image 1 holds the whole jacket: its left half is the front cover */
+  function bkCover(book) { return bkFile(book, 1); }
   function bkThumb(book, page) {
-    var p = 'assets/book/th/' + BOOKS[book].prefix + '-' + pad2(page) + '.jpg';
+    var p = 'assets/book/th/' + BOOKS[book].prefix + '-' + pad2(page - 1 + BOOKS[book].off) + '.jpg';
     return (window.__BOOK_IMGS && window.__BOOK_IMGS[p]) || p;
   }
 
@@ -303,13 +311,18 @@
   /* counter, progress, arrows, thumbs, neighbour preload */
   function bkMeta() {
     var b = BOOKS[bkBook];
-    if (bkCount) bkCount.textContent = bkPage + ' / ' + b.n;
-    if (bkBar) bkBar.style.width = ((bkPage / b.n) * 100).toFixed(2) + '%';
-    if (bkPrev) bkPrev.disabled = bkPage <= 1;
-    if (bkNext) bkNext.disabled = bkPage >= b.n;
+    var shut = bkClosed && b.cover;
+    if (bkCount) {
+      if (shut) bkCount.innerHTML = '<span lang="en">Cover</span><span lang="zh">封面</span>';
+      else bkCount.textContent = bkPage + ' / ' + b.n;
+    }
+    if (bkBar) bkBar.style.width = (shut ? 0 : (bkPage / b.n) * 100).toFixed(2) + '%';
+    if (bkPrev) bkPrev.disabled = shut || bkPage <= 1;
+    if (bkNext) bkNext.disabled = !shut && bkPage >= b.n;
+    if (bookEl) bookEl.classList.toggle('is-closed', shut);
     if (bkThumbs) {
       Array.prototype.forEach.call(bkThumbs.children, function (el) {
-        el.setAttribute('aria-pressed', String(Number(el.dataset.p) === bkPage));
+        el.setAttribute('aria-pressed', String(!shut && Number(el.dataset.p) === bkPage));
       });
     }
     [bkPage - 1, bkPage + 1].forEach(function (p) {
@@ -317,13 +330,22 @@
     });
   }
 
-  /* show a spread on both halves */
+  /* show a spread on both halves, or the shut book */
   function bkPaint() {
     var b = BOOKS[bkBook];
+    var shut = bkClosed && b.cover;
     var src = bkSrc(bkBook, bkPage);
-    if (bkStage) bkStage.style.setProperty('--ar', b.ar);
+    if (bkStage) {
+      bkStage.style.setProperty('--ar', b.ar);
+      bkStage.classList.toggle('closed', shut);
+      bkStage.classList.remove('bk-lhid');
+    }
     if (bkLeft) { bkLeft.src = src; bkLeft.alt = b.name.zh + '，左页'; }
-    if (bkRight) { bkRight.src = src; bkRight.alt = b.name.zh + '，右页'; }
+    if (bkRight) {
+      bkRight.src = shut ? bkCover(bkBook) : src;
+      bkRight.alt = b.name.zh + (shut ? '，封面' : '，右页');
+    }
+    if (bkLeaf) bkLeaf.className = 'bk-leaf';
     bkMeta();
   }
 
@@ -344,26 +366,64 @@
     }
   }
 
-  function bkFinishTurn() {
+  /* settle whichever turn is running — always repaint from state, so the
+     halves, the classes and the counter can never disagree */
+  function bkFinish() {
     window.clearTimeout(bkTimer);
-    if (!bkLeaf) return;
-    var src = bkSrc(bkBook, bkPage);
-    if (bkLeft) bkLeft.src = src;
-    if (bkRight) bkRight.src = src;
-    bkLeaf.className = 'bk-leaf';
+    var mode = bkPending;
+    bkPending = null;
     bkBusy = false;
+    if (mode === 'close') bkClosed = true;
+    else if (mode) bkClosed = false;
+    bkPaint();
+  }
+
+  function bkSwing(mode) {
+    bkBusy = true;
+    bkPending = mode;
+    bkLeaf.className = 'bk-leaf';
+    void bkLeaf.offsetWidth;
+    bkLeaf.className = 'bk-leaf on ' + (mode === 'close' ? 'bwd' : 'fwd') + (mode === 'turn' ? '' : ' from-cover');
+    window.clearTimeout(bkTimer);
+    bkTimer = window.setTimeout(bkFinish, 950);
+  }
+
+  /* shut book -> first spread: the cover swings across, showing the next page on its back */
+  function bkOpen() {
+    var b = BOOKS[bkBook];
+    if (!b.cover || !bkClosed || bkBusy) return;
+    var first = bkSrc(bkBook, 1);
+    if (reduce || !bkLeaf) { bkClosed = false; bkPage = 1; bkPaint(); return; }
+    bkPage = 1;
+    if (bkStage) { bkStage.classList.remove('closed'); bkStage.classList.add('bk-lhid'); }
+    if (bkLeafImg) bkLeafImg.src = bkCover(bkBook);
+    if (bkLeafBackImg) bkLeafBackImg.src = first;
+    if (bkRight) bkRight.src = first;
+    if (bkLeft) bkLeft.src = first;
+    bkSwing('open');
+  }
+
+  function bkClose() {
+    var b = BOOKS[bkBook];
+    if (!b.cover || bkClosed || bkBusy) return;
+    if (reduce || !bkLeaf) { bkClosed = true; bkPaint(); return; }
+    if (bkStage) bkStage.classList.add('bk-lhid');
+    if (bkLeafImg) bkLeafImg.src = bkCover(bkBook);
+    if (bkLeafBackImg) bkLeafBackImg.src = bkSrc(bkBook, bkPage);
+    bkSwing('close');
   }
 
   function bkGo(page, dir) {
     if (!bkLeft || !bkRight) return;
     var b = BOOKS[bkBook];
+    if (bkClosed && b.cover) { if (dir !== 'prev') bkOpen(); return; }
     if (page < 1 || page > b.n || page === bkPage || bkBusy) return;
     if (dir !== 'prev' && dir !== 'next') dir = page > bkPage ? 'next' : 'prev';
+    if (dir === 'prev' && page === 1 && b.cover) { bkClose(); return; }
 
     var curSrc = bkSrc(bkBook, bkPage);
     var newSrc = bkSrc(bkBook, page);
     bkPage = page;
-    bkBusy = true;
     if (bkStage) bkStage.style.setProperty('--ar', b.ar);
 
     if (reduce || !bkLeaf) {
@@ -374,24 +434,18 @@
       return;
     }
 
-    if (dir === 'next') {
-      if (bkLeafImg) bkLeafImg.src = curSrc;   /* the right page lifts away */
-      bkRight.src = newSrc;                    /* revealed underneath */
-    } else {
-      if (bkLeafImg) bkLeafImg.src = newSrc;   /* the page swings back */
-      bkLeft.src = newSrc;                     /* revealed underneath */
-    }
+    /* front = the page that moves, back = the page that lands underneath */
+    if (bkLeafImg) bkLeafImg.src = dir === 'next' ? curSrc : newSrc;
+    if (bkLeafBackImg) bkLeafBackImg.src = dir === 'next' ? newSrc : curSrc;
     bkMeta();
-
-    bkLeaf.className = 'bk-leaf';
-    void bkLeaf.offsetWidth;
-    bkLeaf.className = 'bk-leaf on ' + (dir === 'next' ? 'fwd' : 'bwd');
-
-    window.clearTimeout(bkTimer);
-    bkTimer = window.setTimeout(bkFinishTurn, 950);
+    bkSwing('turn');
   }
 
-  if (bkLeaf) bkLeaf.addEventListener('animationend', bkFinishTurn);
+  if (bkLeaf) bkLeaf.addEventListener('animationend', bkFinish);
+
+  if (bkStage) bkStage.addEventListener('click', function () {
+    if (bkClosed && BOOKS[bkBook].cover) bkOpen();
+  });
 
   if (bkPrev && bkNext) {
     bkPrev.addEventListener('click', function () { bkGo(bkPage - 1, 'prev'); });
@@ -404,7 +458,8 @@
       bkBook = t.dataset.book;
       bkPage = 1;
       bkBusy = false;
-      if (bkLeaf) bkLeaf.className = 'bk-leaf';
+      bkPending = null;
+      bkClosed = !!BOOKS[bkBook].cover;
       $$('.rtab').forEach(function (o) { o.setAttribute('aria-pressed', String(o === t)); });
       bkNowLabel();
       bkBuildThumbs();

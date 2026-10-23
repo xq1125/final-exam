@@ -530,6 +530,43 @@ details.st .body .sig{
   background:linear-gradient(265deg,#F6EDDE,#EFE5D4);
   box-shadow:inset 0 0 70px rgba(120,90,70,.16)
 }
+/* the back of the leaf carries the page that will land underneath */
+.bk-face-back img{
+  position:absolute;top:0;left:0;height:100%;width:200%;max-width:none;display:block;object-fit:cover
+}
+
+/* a closed book: one page standing on its own, no mat behind it */
+.book-stage.closed{
+  flex:0 0 50%;width:50%;background:none;box-shadow:none
+}
+.book-stage.closed::before{padding-top:calc(200% / var(--ar,3))}
+.book-stage.closed .bk-grid,.book-stage.closed .bk-gutter{display:none}
+.book-stage.closed .bk-left{visibility:hidden}
+.book-stage.closed .bk-right{
+  left:0;width:100%;border-radius:3px 5px 5px 3px;
+  box-shadow:0 34px 54px -38px rgba(60,40,30,.95),0 0 0 1px rgba(160,140,120,.16);
+  cursor:pointer
+}
+.book-stage.closed .bk-right img{left:0}
+.book-stage.closed .bk-right::after{
+  content:"";position:absolute;top:0;bottom:0;left:0;width:14px;z-index:2;pointer-events:none;
+  background:linear-gradient(90deg,rgba(60,40,30,.22),rgba(60,40,30,0))
+}
+.book-stage.closed .bk-right:hover{box-shadow:0 40px 60px -38px rgba(60,40,30,1),0 0 0 1px rgba(160,140,120,.3)}
+/* while the cover is swinging, the left page must stay out of sight */
+.book-stage.bk-lhid .bk-left{visibility:hidden}
+.bk-leaf.from-cover .bk-face-front img{left:0}
+.bk-hint{
+  position:absolute;left:52%;top:50%;transform:translateY(-50%);
+  margin:0;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-faint);pointer-events:none;
+  transition:opacity .4s var(--ease)
+}
+.book-stage.closed ~ .bkn{opacity:1}
+.book.is-closed .bkn-prev{opacity:.28;pointer-events:none}
+.book.is-closed .bkn-next{opacity:.75}
+.book.is-closed .bk-hint{opacity:1}
+.book:not(.is-closed) .bk-hint{opacity:0}
 .bk-leaf.fwd{animation:leafFwd .7s cubic-bezier(.32,.06,.3,1) forwards}
 .bk-leaf.bwd{animation:leafBwd .7s cubic-bezier(.32,.06,.3,1) forwards}
 @keyframes leafFwd{from{transform:rotateY(0)}to{transform:rotateY(-180deg)}}
