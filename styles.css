@@ -594,7 +594,7 @@ details.st .body .sig{
 
 /* a closed book: one page standing on its own, no mat behind it */
 .book-stage.closed{
-  flex:0 0 50%;width:50%;background:none;box-shadow:none
+  flex:0 0 50%;width:50%;margin-left:auto;background:none;box-shadow:none
 }
 .book-stage.closed::before{padding-top:calc(200% / var(--ar,3))}
 .book-stage.closed .bk-grid,.book-stage.closed .bk-gutter{display:none}
@@ -622,7 +622,7 @@ details.st .body .sig{
 .book-stage.closed ~ .bkn{opacity:1}
 /* the same book seen from the back, after the last spread */
 .book-stage.ended{
-  flex:0 0 50%;width:50%;margin-left:auto;background:none;box-shadow:none
+  flex:0 0 50%;width:50%;background:none;box-shadow:none
 }
 .book-stage.ended::before{padding-top:calc(200% / var(--ar,3))}
 .book-stage.ended .bk-left{visibility:hidden}

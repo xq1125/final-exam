@@ -282,10 +282,10 @@
   /* n = spreads you can read; off = which image file the first spread is;
      cover = the book starts shut, with image 1's left half as its cover */
   var BOOKS = {
-    b1: { n: 8, ar: 3, prefix: 'b1', off: 2, cover: true, ends: true, name: { en: 'Volume I', zh: '第一册' } },
-    b2: { n: 8, ar: 3, prefix: 'b2', off: 2, cover: true, ends: true, name: { en: 'Volume II', zh: '第二册' } },
-    b3: { n: 8, ar: 3, prefix: 'b3', off: 2, cover: true, ends: true, name: { en: 'Volume III', zh: '第三册' } },
-    hb: { n: 3, ar: 2.82, prefix: 'hbs', off: 1, cover: false, ends: false, name: { en: 'Parent handbook', zh: '家长手册' } }
+    b1: { n: 8, ar: 3, prefix: 'b1', off: 2, cover: true, ends: true, back: 1, name: { en: 'Volume I', zh: '第一册' } },
+    b2: { n: 8, ar: 3, prefix: 'b2', off: 2, cover: true, ends: true, back: 1, name: { en: 'Volume II', zh: '第二册' } },
+    b3: { n: 8, ar: 3, prefix: 'b3', off: 2, cover: true, ends: true, back: 1, name: { en: 'Volume III', zh: '第三册' } },
+    hb: { n: 3, ar: 2.82, prefix: 'hbs', off: 1, cover: true, ends: true, name: { en: 'Parent handbook', zh: '家长手册' } }
   };
 
   var bkStage = $('#bookStage');
@@ -318,6 +318,11 @@
   function bkSrc(book, page) { return bkFile(book, page - 1 + BOOKS[book].off); }
   /* image 1 holds the whole jacket: its left half is the front cover */
   function bkCover(book) { return bkFile(book, 1); }
+  /* the back cover lives on the right half of ack (the jacket) or of the last spread */
+  function bkBackImg(book) {
+    var b = BOOKS[book];
+    return b.back ? bkFile(book, b.back) : bkSrc(book, b.n);
+  }
   function bkThumb(book, page) {
     var p = 'assets/book/th/' + BOOKS[book].prefix + '-' + pad2(page - 1 + BOOKS[book].off) + '.jpg';
     return (window.__BOOK_IMGS && window.__BOOK_IMGS[p]) || p;
@@ -367,7 +372,7 @@
     }
     if (bkLeft) { bkLeft.src = src; bkLeft.alt = b.name.zh + '，左页'; }
     if (bkRight) {
-      bkRight.src = (shut || ended) ? bkCover(bkBook) : src;
+      bkRight.src = shut ? bkCover(bkBook) : ended ? bkBackImg(bkBook) : src;
       bkRight.alt = b.name.zh + (shut ? '，封面' : ended ? '，封底' : '，右页');
     }
     if (bkLeaf) bkLeaf.className = 'bk-leaf';
